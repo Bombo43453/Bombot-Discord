@@ -5,10 +5,12 @@ module.exports = {
     description: "Help with commands",
     execute(client, message, args, Discord){
 		    const embed = new Discord.MessageEmbed()
-        .setTitles("Help Commands")
+        .setTitle("Help Commands")
         .setDescription("This is the help for commands")
-        .addfields(
-          {name: ${process.env.PREFIX}"help" description:"More Info About Commands"}
+        .addFields(
+          {name: `${process.env.PREFIX}help`, value: "Show This Prompt", inline: false},
+          {name: `${process.env.PREFIX}errorcode`, value: "Display Error Codes", inline: false},
+          {name: `${process.env.PREFIX}8ball`, value: `Have A Virtural 8ball Predict A Future`, inline: false},
         )
         message.channel.send(embed)
     }
