@@ -1,15 +1,26 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 require('dotenv').config();
+const fs = require('fs');
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-});
+client.prefix = (`${process.env.PREFIX}`);
+client.commands = new Discord.Collection
 
-client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
-  }
+fs.readdirSync('./commands').forEach(dirs => {
+  const commands = fs.readdirSync(`./commands/${dirs}`).filter(files => files.endsWith('.js'));
+
+  for (const file of commands) {
+      const command = require(`./commands/${dirs}/${file}`);
+      console.log(`Loading Command: ${file}`);
+      client.commands.set(command.name.toLowerCase(), command);
+  };
 });
+const events = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+
+for (const file of events) {
+  console.log(`Loading event: ${file}`);
+  const event = require(`./events/${file}`);
+  client.on(file.split(".")[0], event.bind(null, client));
+};
 
 client.login(`${process.env.TOKEN}`);
