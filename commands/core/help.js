@@ -4,8 +4,13 @@ module.exports = {
     name: "help",
     description: "Help with commands",
     execute(client, message, args, Discord){
-		Channel.send(`hi`)
-		
-    }    
+		    const embed = new Discord.MessageEmbed()
+        .setTitles("Help Commands")
+        .setDescription("This is the help for commands")
+        .addfields(
+          {name: ${process.env.PREFIX}"help" description: "More Info about Commands"}
+        )
+    message.channel.send(embed)
+
+    }
 }
-//ban arg 1 
