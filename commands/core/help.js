@@ -8,8 +8,9 @@ module.exports = {
         .setTitles("Help Commands")
         .setDescription("This is the help for commands")
         .addfields(
-          name: ${process.env.PREFIX}""
+          {name: ${process.env.PREFIX}"help" description:"More Info About Commands"}
         )
+        message.channel.send(embed)
     }
 }
 //ban arg 1
