@@ -17,10 +17,14 @@
   },
   "homepage": "https://github.com/Bombo43453/EA-BOT#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
-    "moment": "^2.29.1"
+    "log-timestamp": "^0.3.0",
+    "moment": "^2.29.1",
+    "ms": "^2.1.3",
+    "opus": "0.0.0"
   }
 }

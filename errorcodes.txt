@@ -1,3 +1,5 @@
 Error 101 = The Messages You Tried To Purge Are More Than 14 Days Old... If the messages are under 14 days old contact the person that made this bot and send this Error Code.
 
 Error 102 = The Bot Is Missing Permissions. Make A  Role And Name It Something... Make sure the bot has an ADMINISTRATOR role.
+
+Error 103 = Message being requested is not a full message. Make sure the message is over 1 word. 
