@@ -3,6 +3,7 @@ const client = new Discord.Client();
 require('dotenv').config();
 const fs = require('fs');
 
+const MusicClient = require('./struct/Client')
 client.prefix = (`${process.env.PREFIX}`);
 client.commands = new Discord.Collection
 

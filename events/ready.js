@@ -7,5 +7,11 @@ module.exports = async (client) => {
 888888          dP""""Yb     88oodP  YbodP    88   
  `)
     console.log(`${client.user.tag} is online!!`)
-    
+client.once("reconnecting", () => {
+        console.log("Reconnecting!");
+      });
+      
+client.once("disconnect", () => {
+        console.log("Disconnect!");
+      });
 }
