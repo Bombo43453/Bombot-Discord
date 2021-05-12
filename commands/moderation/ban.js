@@ -5,7 +5,7 @@ module.exports = {
     async execute(client, message, args, Discord){
         if(!message.member.permissions.has(`${process.env.BANPERM}`)) return message.channel.send(`You Don't Have Permissions!!!!!`);
 
-        const member = message.mentions.members.first();
+        const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
        // if (message.mentions.users.first() === `581584824326684672` || `533036968884568065` || `317748198158630913`) return message.channel.send(`Cmon you tried to ban a director!!!`);
         if (!member) return message.channel.send(`You Must Mention A Member ${process.env.PREFIX}ban (User) (reason)`).then (msg => msg.delete({timeout:3000}));
 
