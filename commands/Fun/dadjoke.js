@@ -16,5 +16,17 @@ async execute(client, message, args, Discord){
         'What kind of drink can be bitter and sweet? Reali-tea.',
         'What do you call a naughty lamb dressed up like a skeleton for Halloween? Baaad to the bone.'
     ]
+    const dadjokes = jokes[Math.floor(Math.random() *jokes.length)]
+
+    const jokembed = new Discord.MessageEmbed()
+    .setColor(`#0099ff`)
+    .setTitle(`DadJoke 🤣`)
+    .setThumbnail(`${process.env.SERVERLOGO}`)
+    .setDescription(`${dadjokes}`)
+    .setTimestamp()
+
+
+   
+    message.channel.send(jokembed)
     }
 }
