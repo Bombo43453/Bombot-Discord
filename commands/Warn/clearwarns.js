@@ -5,7 +5,8 @@ const db = require('../../database/models/warns')
 module.exports = {
     name: `clearwarning`,
     aliases: [`clearwarn`, `clearwarns`, `remove-all-warns`, `clearwarnings`],
-    description: `Remove A Warning`,
+    description: `Clear All Of A User's Warnings`,
+    usage: `(user) (reason)`,
 async execute(client, message, args, Discord){
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You Do Not Have Permission To Use This Command (Only Administrators can Clear Warnings)`)
     const user = message.mentions.members.first() || message.guild.member.cache.get(args[0]);

@@ -2,7 +2,7 @@ const got = require(`got`);
 const api = require(`imageapi.js`)
 module.exports = {
     name: `cutecat`,
-    description: `Display A Meme`,
+    description: `Show A Kitten`,
     aliases: [`kitten`, `cat`],
 async execute(client, message, args, Discord){
     const subreddits = [`cat`, `cats`];

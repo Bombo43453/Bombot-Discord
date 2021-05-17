@@ -1,5 +1,9 @@
 const Discord = require('discord.js');
+
 module.exports = async(client, message) => {
+  const errorlog = client.channels.cache.get(`${process.env.ERRORLOG}`);
+  const botlog = client.channels.cache.get(`${process.env.LOG}`)
+  const msglog = client.channels.cache.get(`${process.env.MSGLOG}`)
   if (message.author.bot) return;
 
   const logChannel = client.channels.cache.find(channel => channel.id === `${process.env.MSGLOG}`)
@@ -47,5 +51,5 @@ module.exports = async(client, message) => {
 
   const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command));
 
-  if (cmd) cmd.execute(client, message, args, Discord);
+  if (cmd) cmd.execute(client, message, args, Discord, errorlog, botlog, msglog);
 };

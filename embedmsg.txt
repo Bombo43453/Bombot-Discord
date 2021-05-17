@@ -1,0 +1,33 @@
+.embed 
+**Products**
+* Basic Discord Bot ** $5 (USD) **
+     - Custom Discord Bot
+     - Moderation Commands 
+     - Database Integration 
+     - Xp System
+     - Xp Games (slots, tictactoe)
+     - Game Integration ( Minecraft, Rust, and More)
+     - Ticket System
+     - One Free Addon
+     - Will Have Access To All New Files And Commands
+     - Daily Support
+     - Anti Spam
+     - Word Blacklists
+     - Mod Logging
+     - Message Logging
+     - Audit Logging
+     - Reaction Roles
+
+**Add ons**
+* Music Bot  (commands)  :musical_note: ** $2 USD **
+     - Will add music commands to the bot, will still be the same bot with music features
+     - Can use spotify or soundcloud playlists
+
+* Anti Raid Add on **$2 USD**  (will have anti raid features)
+     - Can protect against raids 
+     - Lockdown command will lock down all channels
+     - Anti join command will protect your server from having raiders join 
+
+* 3 Custom Commands **$3 USD**
+     - 3 custom commands or features
+     - May Take Over A Week To Do, depending on the command

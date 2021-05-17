@@ -3,6 +3,7 @@ const { MessageAttachment, MessageEmbed } = require("discord.js")
 module.exports = {
     name: "acceptsuggestion",
     description: "Accept A Suggestion",
+    usage: `(messageID) (Reason)`,
 async execute(client, message, args, Discord){
     if(!message.member.permissions.has(`${process.env.ACCEPTSUGGEST}`)) return message.reply('Invalid permissions');
     const messageID = args [0];

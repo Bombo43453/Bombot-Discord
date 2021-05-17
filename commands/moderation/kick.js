@@ -1,6 +1,7 @@
 module.exports = {
     name: 'kick',
     description: 'this command kicks a member',
+    usage: `(user) (reason)`,
     // permissions:["MUTE_MEMBERS"],
     execute(client, message, args, Discord){
         let reason = args.slice(1).join(" ");

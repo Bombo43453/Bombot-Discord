@@ -2,7 +2,8 @@ const { exec } = require('child_process');
 module.exports = {
     name: `execute`,
     aliases: [`exec`],
-    description: `Execute Commands In The Console`,
+    description: `Execute Commands In The Console (Owner, Bot Devs Only)`,
+    usage: `(arg)`,
 async execute(client, message, args, Discord){
     let command = args.join(" ");
     if(!command) return message.channel.send(`Please Add A Command`)

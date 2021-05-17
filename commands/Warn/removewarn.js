@@ -5,7 +5,8 @@ const db = require('../../database/models/warns')
 module.exports = {
     name: `removewarning`,
     aliases: [`rmvwarn`, `removewarn`, `deletewarning`, `rmvwarning`],
-    description: `Remove A Warning`,
+    description: `Remove A Warning (Make sure to check the warning number with ${process.env.PREFIX}warns (user) )`,
+    usage: `(user) (Warning Number)`,
 async execute(client, message, args, Discord){
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.member.cache.get(args[0]);

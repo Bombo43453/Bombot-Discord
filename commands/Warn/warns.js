@@ -5,7 +5,7 @@ const { Message, MessageEmbed} = require(`discord.js`)
 module.exports = {
     name: `warns`,
     aliases: [`warnings`],
-    description: `Warn A User`,
+    description: `Check A User's Warnings`,
 async execute(client, message, args, Discord){
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

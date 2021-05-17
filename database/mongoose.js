@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require(`dotenv`).config();
+const chalk = require(`chalk`)
 
 module.exports = {
     init: () => {
@@ -8,16 +9,16 @@ module.exports = {
             useUnifiedTopology: true,
             autoIndex: false,
             poolSize: 5,
-            connectTimeoutMS: 10000,
+            connectTimeoutMS: 1000,
             family: 4
         };
 
-        mongoose.connect(`mongodb+srv://discordbot:${process.env.DATABASEPASS}@bot.rirsy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, dbOptions);
+        mongoose.connect(`${process.env.DATABASE}`, dbOptions);
         mongoose.set(`useFindAndModify`, false);
         mongoose.Promise = global.Promise;
 
         mongoose.connection.on(`connected`, () => {
-            console.log('the bot has connected to the database')
+            console.log(chalk.green('the bot has connected to the database'))
             
         });
 

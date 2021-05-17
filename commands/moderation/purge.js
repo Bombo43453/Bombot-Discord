@@ -1,6 +1,7 @@
 module.exports = {
     name: "purge",
     description: "removes some messages",
+    usage: `(amount of messages)`,
     async execute(client, message, args, Discord){
         const reason = args.join(" ");
         if (!message.guild) return;

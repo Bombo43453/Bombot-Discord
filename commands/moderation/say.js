@@ -1,6 +1,7 @@
 module.exports = {
     name:"say",
     description: "says what you tell it to",
+    usage: `(message)`,
     async execute(client, message, args, Discord){
         message.delete();
         if (!message.member.hasPermission(`${process.env.SAYPERM}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions... Missing: **${process.env.SAYPERM}**`);

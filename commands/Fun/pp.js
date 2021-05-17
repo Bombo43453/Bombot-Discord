@@ -2,7 +2,8 @@
 module.exports = {
    name: 'ppsize',
    aliases: ['pp'],
-   description: "shows ppsize",
+   description: "Show a User's PP Size",
+   usage: `(user/leave empty)`,
    execute(client, message, args, Discord){
      const mentioned = message.mentions.users.first();
      if (!mentioned) return message.channel.send(`Please Mention A User Usage: ${process.env.PREFIX}ppsize (user)`)

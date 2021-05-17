@@ -1,7 +1,8 @@
 module.exports = {
     name: `dadjoke`,
     description: `Tells A DadJoke`,
-async execute(client, message, args, Discord){
+    usage:(``),
+    async execute(client, message, args, Discord){
     const jokes = [
         'Which bear is the most condescending? A pan-duh',
         'What kind of noise does a witch’s vehicle make? Brrrroooom, brrroooom.',

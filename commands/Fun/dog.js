@@ -2,9 +2,10 @@ const got = require(`got`);
 const api = require(`imageapi.js`)
 module.exports = {
     name: `cutedog`,
-    description: `Display A Meme`,
+    description: `Display A Cute Dog`,
+    usage: ``,
     aliases: [`doggie`, `dog`, `puppie`],
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord,){
     const subreddits = [`DOG`,`PuppySmiles`, `Cutedogsreddit`, `dogpictures`];
     const subreddit = subreddits[Math.floor(Math.random() * (subreddits.length))];
     const meme = await api.advanced(subreddit);

@@ -4,6 +4,7 @@ module.exports = {
     name: "urbandictionary",
     aliases: ['urbandic', 'urban'],
     description: "looks up a work on the Urban Dictionary",
+    usage: `Word`,
    async execute(client, message, args, Discord){
     let query = args.join(" ")
     if(!query) message.reply(' Please Specify A Word To Search For');

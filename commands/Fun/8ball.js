@@ -1,6 +1,7 @@
 module.exports = {
     name: '8ball',
-    description: "8ball guess thing",
+    usage: `(message)`,
+    description: "Have An 8ball Predict Your Future",
 execute(client, message, args, Discord){
 
     if (!args[0]) return message.channel.send(`Please Ask A Full Question`)

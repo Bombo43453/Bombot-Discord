@@ -1,6 +1,7 @@
 module.exports = {
     name: "unban",
     description: "Unban a member",
+    usage: `ID`,
 
 async execute(client, message, args, Discord){
     const invalidembed = new Discord.MessageEmbed()

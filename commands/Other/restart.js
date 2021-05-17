@@ -1,7 +1,7 @@
 module.exports = {
     name: `restart`,
     aliases: [`crash`],
-    description: `Restart The Bot`,
+    description: `Restart The Bot (Only For People With The Role 'BOTPERM')`,
 async execute(client, message, args, Discord){
     if (!message.member.roles.cache.some(role => role.name === `BOTPERM`)){
     message.channel.send(`You do not have permissions (make sure you have the role "BOTPERM")`)

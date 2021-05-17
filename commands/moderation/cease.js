@@ -1,7 +1,8 @@
 module.exports = {
     name: "cease",
     description: "Cease A Conversation",
-    async execute(client, message, args, Discord){
+    usage: `(reason)`,
+        async execute(client, message, args, Discord){
         message.delete();
         const reason = args.join(" ");
         const noembed = new Discord.MessageEmbed()

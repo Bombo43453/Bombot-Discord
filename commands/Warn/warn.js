@@ -6,11 +6,18 @@ module.exports = {
     name: `warn`,
     aliases: [`warning`],
     description: `Warn A User`,
+    usage: `(user) (reason)`,
 async execute(client, message, args, Discord){
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
     const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${process.env.prefix}warn (user/id)`)
-    if(!user) return message.channel.send(`User Not Found.`)
+        const nousers = new Discord.MessageEmbed()
+            .setTitle(`User Not Found`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setThumbnail(`${process.env.SERVERLOGO}`)
+            .setDescription(`Make Sure You Mentioned A User In This Guild`)
+            .addField(`Usage:`, `${process.env.PREFIX}warn (user) (reason)`)
+    if(!user) return message.channel.send(nousers)
     const reason = args.slice(1).join(" ");
         const reasonembed = new Discord.MessageEmbed()
             .setTitle(`Invalid Usage`)

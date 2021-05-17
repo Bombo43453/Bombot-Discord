@@ -2,7 +2,8 @@
 module.exports = {
     name: "ban",
     description: "Ban A Member",
-    async execute(client, message, args, Discord){
+    usage: `(user) (reason)`,
+        async execute(client, message, args, Discord){
         if(!message.member.permissions.has(`${process.env.BANPERM}`)) return message.channel.send(`You Don't Have Permissions!!!!!`);
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
