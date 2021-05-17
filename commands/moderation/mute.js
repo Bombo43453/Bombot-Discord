@@ -51,12 +51,14 @@ async execute(client, message, args, Discord){
         };
 
         const already = new Discord.MessageEmbed()
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .setTitle(`Member Already Muted`)
         .setDescription(`${message.author}, This Member Has Already Been Muted!`)
         .setFooter(`If You Think This Was A Mistake Make A Ticket`)
 
         const nowmuted = new Discord.MessageEmbed()
         .setTitle(`Member Muted`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .addFields(
             {name: `User Muted:`, value: `${Member.displayName}`, inline: false},
             {name: `Muted By:`, value: `${message.author}`, inline: false}
@@ -64,6 +66,7 @@ async execute(client, message, args, Discord){
 
         const DMembed = new Discord.MessageEmbed()
         .setTitle(`YOU HAVE BEEN MUTED`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .addFields(
             {name: `TIME:`, value: `THIS MUTE HAS NO LIMIT`, inline: false},
             {name: `Appeal Here:`, value: `https://discord.gg/sbYhAmuCZX`, inline: false}
@@ -72,6 +75,7 @@ async execute(client, message, args, Discord){
         const LogEmbed = new Discord.MessageEmbed()
         .setTitle(`Member Muted!`)
         .setDescription(`Muted By: ${message.author}`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .addFields(
             {name: `Time`, value: `This Is Not A TempMute (This Mute Has No Limit!!)`},
             {name: `User Muted:`, value: `${Member}`}

@@ -16,6 +16,7 @@ module.exports = {
         const banembed = new Discord.MessageEmbed()
         .setTitle('Banned Member')
         .setDescription(`Banned By: ${message.author}`)
+        .setColor(`RED`)
         .setTimestamp()
         .addFields(
             {name: `Banned Member:`, value: `${member}`, inline: false},
@@ -25,6 +26,7 @@ module.exports = {
         //LOG MESSAGE
         const logembed = new Discord.MessageEmbed()
         .setTitle(`MEMBER BANNED`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .setDescription(`Banned By: ${message.author}`)
         .addFields(
             {name: `Member Banned:`, value: `${member}`, inline: false},
@@ -34,6 +36,7 @@ module.exports = {
         //DM MESSAGE
         const DMmessage = new Discord.MessageEmbed()
         .setTitle(`You Have Been Banned`)
+        .setColor(`RED`)
         .addFields(
             {name: `Banned By:`, value: `${message.author}`, inline: false},
             {name: `Reason:`, value: `${reason}`, inline: false},

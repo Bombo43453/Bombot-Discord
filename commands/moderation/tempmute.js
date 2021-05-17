@@ -8,6 +8,7 @@ async execute(client, message, args, Discord){
     .setTitle(`INVALID PERMISSIONS`)
     .setDescription(`${message.author}, you have invalid permissions`)
     .setFooter(` If you think this is a mistake, please make a ticket`)
+    .setColor(`${process.env.EMBEDCOLOR}`)
 
     const nomemberfound = new Discord.MessageEmbed()
         .setTitle(`Member Not Found`)
@@ -63,9 +64,11 @@ async execute(client, message, args, Discord){
         .setTitle(`Member Already Muted`)
         .setDescription(`${message.author}, ${Member.displayName}, Has Already Been Muted!`)
         .setFooter(`If You Think This Was A Mistake Make A Ticket`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
 
     const nowmuted = new Discord.MessageEmbed()
         .setTitle(`Member Muted`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .addFields(
             {name: `User Muted:`, value: `${Member.displayName}`, inline: false},
             {name: `Muted By:`, value: `${message.author}`, inline: false}
@@ -73,6 +76,7 @@ async execute(client, message, args, Discord){
 
      const DMembed = new Discord.MessageEmbed()
         .setTitle(`YOU HAVE BEEN MUTED`)
+        .setColor(`RED`)
         .addFields(
             {name: `TIME:`, value: `${time}`, inline: false},
             {name: `Appeal Here:`, value: `https://discord.gg/sbYhAmuCZX`, inline: false}
@@ -81,6 +85,7 @@ async execute(client, message, args, Discord){
      const LogEmbed = new Discord.MessageEmbed()
         .setTitle(`Member Muted!`)
         .setDescription(`Muted By: ${message.author}`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .addFields(
             {name: `Time`, value: `${time}`, inline: false},
             {name: `User Muted:`, value: `${Member}`, inline: false}
@@ -88,8 +93,9 @@ async execute(client, message, args, Discord){
 
     const UnmuteEmbed = new Discord.MessageEmbed()
     .setTitle(`Member Unmuted`)
+    .setColor(`${process.env.EMBEDCOLOR}`)
     .addFields(
-        {name: `Unmuted Member:`, value: `${Member.displayName}`, inline: false},
+        {name: `Unmuted Member:`, value: `${Member.tag}`, inline: false},
         {name: `Time Muted For:`, value: `${time}`, inline: false}
     )
 

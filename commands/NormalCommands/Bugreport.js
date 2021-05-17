@@ -16,7 +16,7 @@ async execute(client, message, args, Discord){
     .addField('Author', message.author.toString(), true)
     .addField('Report', query)
     .setTimestamp()
-    .setColor('RED')
+    .setColor(`${process.env.EMBEDCOLOR}`)
 
     client.channels.cache.get(`${process.env.BUG}`).send(reportEmbed)
 }

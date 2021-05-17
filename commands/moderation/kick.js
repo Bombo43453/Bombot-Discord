@@ -10,6 +10,7 @@ module.exports = {
         //if (message.mentions.users.first() !== guildMember) return message.channel.send (`You Must Kick A Member In This Server`);
         const modembed = new Discord.MessageEmbed()
             .setTitle(`Kicked By ${message.author.tag}`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
             .setAuthor(`Member Kicked`)
             .setDescription(`Member Kicked: ${message.mentions.users.first()}`)
             .addFields(
@@ -18,6 +19,8 @@ module.exports = {
         const nomemberembed = new Discord.MessageEmbed() .setDescription(`${message.author}, You Couldn't Kick That Member`);
         const kickembed = new Discord.MessageEmbed()
         .setTitle(`Member Kicked`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setThumbnail(`${process.env.SERVERLOGO}`)
         .setDescription(`Kicked By: ${message.author}`)
         .addFields(
             {name: `Member Kicked:`, value: `${message.mentions.users.first()}`, inline: false},
@@ -27,6 +30,8 @@ module.exports = {
         const memberTarget = message.guild.members.cache.get(member.id);
         const dmEmbed = new Discord.MessageEmbed()
             .setTitle(`YOU HAVE BEEN KICKED FROM ${process.env.SERVERNAME}`)
+            .setColor(`RED`)
+            .setThumbnail(`${processe.env.SERVERLOGO}`)
             .setDescription(`You were kicked by ${message.author}`)
             .addFields(
                 {name: `Reason:`, value: `${reason}`, inline: false}

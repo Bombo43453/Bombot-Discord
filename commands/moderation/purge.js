@@ -25,6 +25,7 @@ module.exports = {
                         .setTitle(`Purged Messages`)
                         .setDescription(`${message.author}, Purged ${messages.size} Messages!`)
                         .setTimestamp()
+                        .setColor(`${process.env.EMBEDCOLOR}`)
                         .addFields(
                             {name: `Channel:`, value: `<#${message.channel.id}>`, inline: false}
                         )

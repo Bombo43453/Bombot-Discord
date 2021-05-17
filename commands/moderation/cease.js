@@ -25,7 +25,7 @@ module.exports = {
            `)
 
         const logembed = new Discord.MessageEmbed()
-        .setColor("#25e4ef")
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .setTitle("A Cease line Was Called")
         .addField(`Staff Member:`, `${message.author.tag}`, false )
         .addField(`Channel:`, `<#${message.channel.id}>`, false)

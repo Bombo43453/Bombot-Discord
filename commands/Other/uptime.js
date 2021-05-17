@@ -12,7 +12,7 @@ async execute(client, message, args, Discord){
     const upembed = new Discord.MessageEmbed()
     .setTitle(` UpTime: `)
     .setDescription(`${duration}`)
-    .setColor(`BLUE`)
+    .setColor(`${process.env.EMBEDCOLOR}`)
     .setTimestamp()
     .setThumbnail(`${process.env.SERVERLOGO}`)
     message.channel.send(upembed)

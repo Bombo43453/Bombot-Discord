@@ -19,6 +19,8 @@ async execute(client, message, args, Discord){
         //Unban Log
         const unbanembed = new Discord.MessageEmbed()
             .setTitle(`UNBANNED MEMBER`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setThumbnail(`${process.env.SERVERLOGO}`)
             .addFields(
                 {name: `Member Unbanned:`, value: `${id}`, inline: false},
                 {name: `Unbanned By:`, value: `${message.author}`, inline: false}

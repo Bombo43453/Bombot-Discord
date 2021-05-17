@@ -8,7 +8,7 @@ module.exports = {
         const sayEmbed = new Discord.MessageEmbed()
             .setDescription(messageToSay)
             .setAuthor(message.author.tag, message.author.displayAvatarURL())
-            .setColor(`#2dd7e6`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
             .setTimestamp();
         const logembed = new Discord.MessageEmbed()
         .setAuthor(message.author.tag, message.author.displayAvatarURL())

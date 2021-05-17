@@ -25,6 +25,7 @@ const eightball = eightballreplies[Math.floor(Math.random() *eightballreplies.le
 
 const eightembed = new Discord.MessageEmbed()
 .setTitle(`🎱 Eight Ball`)
+.setColor(`${process.env.EMBEDCOLOR}`)
 .addFields(
   {name: `Question:`, value: `${reason}`, inline: false},
   {name: `Reply:`, value: `${eightball}`, inline: false}

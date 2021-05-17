@@ -9,13 +9,13 @@ module.exports = {
         const sayEmbed = new Discord.MessageEmbed()
             .setDescription(messageToSay)
             .setAuthor(message.author.username, message.author.displayAvatarURL())
-            .setColor(`#2dd7e6`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
             .setTimestamp();
         const logembed = new Discord.MessageEmbed()
             .setTitle(`Say Log (embed):`)
             .setTimestamp()
             .setDescription(messageToSay)
-            .setColor(`BLUE`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
             .addFields(
                 {name: `Author:`, value: `${message.author}`, inline: true},
                 {name: `Channel:`, value: `${message.channel.name}`, inline: true},

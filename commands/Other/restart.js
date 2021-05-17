@@ -12,7 +12,7 @@ async execute(client, message, args, Discord){
     .setDescription(`Please Wait Up To 1 Minute For It To Go Back Online`)
     .setFooter(` Wait For The Start Message Below`)
     .setTimestamp()
-    .setColor(`BLUE`)
+    .setColor(`${process.env.EMBEDCOLOR}`)
     .setAuthor(`${message.author.tag}`, message.author.displayAvatarURL())
     client.channels.cache.get(`${process.env.MSGLOG}`).send(logembed);
     message.channel.send(`Restarting... (expect to be ready within 1 minute) `)

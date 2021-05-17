@@ -8,6 +8,7 @@ async execute(client, message, args, Discord){
 if(!message.member.hasPermission(`${process.env.MUTEPERM}`)) return message.channel.send(`INVALID PERMISSIONS Missing: ${process.env.MUTEPERM}`)
     const Logembed = new Discord.MessageEmbed()
     .setTitle(`Member Unmuted`)
+    .setColor(`${process.env.EMBEDCOLOR}`)
     .addFields(
         {name: `Unmuted By:`, value: `${message.author}`, inline: false},
         {name: `Member Unmuted:`, value: `${Member}`, inline: false}
@@ -15,6 +16,7 @@ if(!message.member.hasPermission(`${process.env.MUTEPERM}`)) return message.chan
 
     const DmEmbed = new Discord.MessageEmbed()
         .setTitle(`YOU HAVE BEEN UNMUTED FROM ICRP`)
+        .setColor(`${process.env.EMBEDCOLOR}`)
         .setDescription(`Try Not To commit this offense again!`)
 
     if(!Member) return message.channel.send(`Member Not Found`)

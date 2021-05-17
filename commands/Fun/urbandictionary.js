@@ -18,7 +18,7 @@ module.exports = {
        new MessageEmbed()
        .setTitle(answer.word)
        .setURL(answer.permalink)
-       .setColor("RANDOM")
+       .setColor(`${process.env.EMBEDCOLOR}`)
        .addField("DEFINITION", trim(answer.definition))
        .addField("EXAMPLE", trim(answer.example))
        .addField("RATINGS", `${answer.thumbs_up} 👍 || ${answer.thumbs_down} 👎`)

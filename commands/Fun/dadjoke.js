@@ -19,7 +19,7 @@ async execute(client, message, args, Discord){
     const dadjokes = jokes[Math.floor(Math.random() *jokes.length)]
 
     const jokembed = new Discord.MessageEmbed()
-    .setColor(`#0099ff`)
+    .setColor(`${process.env.EMBEDCOLOR}`)
     .setTitle(`DadJoke 🤣`)
     .setThumbnail(`${process.env.SERVERLOGO}`)
     .setDescription(`${dadjokes}`)

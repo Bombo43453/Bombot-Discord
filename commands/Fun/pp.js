@@ -21,11 +21,11 @@ module.exports = {
        const ppsizes = ppsize[Math.floor(Math.random() *ppsize.length)]
 
        const ppembed = new Discord.MessageEmbed()
-       .setColor(`#0099ff`)
+       .setColor(`${process.env.EMBEDCOLOR}`)
        .setDescription(`Hey,${message.author} your PP Size Is: ${ppsizes}`)
 
        const userembed = new Discord.MessageEmbed()
-       .setColor(`#0099ff`)
+       .setColor(`${process.env.EMBEDCOLOR}`)
        .setDescription(`${mentioned.username}'s PPsize is ${ppsizes}`)
 
       // if(!message.mentions.users) return message.channel.send(ppembed)

@@ -7,7 +7,7 @@ module.exports = {
         const messageToSay = args.join(" ");
         const logembed = new Discord.MessageEmbed()
             .setTitle(`${process.env.PREFIX}say Used:`)
-            .setColor(`BLUE`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
             .addFields(
                 {name: `Author`, value: `${message.author}`, inline: true},
                 {name: `Channel`, value: `${message.channel}`, inline: true},
