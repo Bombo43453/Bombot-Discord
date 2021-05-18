@@ -16,7 +16,8 @@ module.exports = {
         General: "📰",
         Fun: "🎉",
         core: '',
-        Xp: `🌟`
+        Xp: `🌟`,
+        Economy: `:coin:`,
       }
       const ignoredCategories = [`moderation`, `Other`, `suggest`, `Warn`, `Mute`]
       fs.readdirSync("./commands/").forEach((dir) => {
