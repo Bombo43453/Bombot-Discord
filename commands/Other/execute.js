@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
 module.exports = {
     name: `execute`,
+    hidden: true,
     aliases: [`exec`],
     description: `Execute Commands In The Console (Owner, Bot Devs Only)`,
     usage: `(arg)`,

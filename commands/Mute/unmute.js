@@ -37,6 +37,7 @@ if(!message.member.hasPermission(`${process.env.MUTEPERM}`)) return message.chan
         //     data.Users.splice(user, 1);
          await Member.roles.remove(role);
          Member.send(DmEmbed)
+         message.channel.send(`Done!`)
          client.channels.cache.get(`${process.env.LOG}`).send(Logembed);
               //  }
 

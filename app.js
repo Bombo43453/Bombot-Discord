@@ -1,8 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const levels = require('discord-xp');
 require('dotenv').config();
 const fs = require('fs');
+const mongoose = require('./database/mongoose');
+const message = require('./events/message');
 
+levels.setURL(`${process.env.DATABASE}`)
 //const MusicClient = require('./struct/Client')
 client.prefix = (`${process.env.PREFIX}`);
 client.commands = new Discord.Collection
@@ -25,4 +29,7 @@ for (const file of events) {
     client.on(file.split(".")[0], event.bind(null, client));
 };
 
+
+
+mongoose.init()
 client.login(`${process.env.TOKEN}`);

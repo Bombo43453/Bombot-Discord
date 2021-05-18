@@ -15,7 +15,8 @@ module.exports = {
       const dirEmojis = {
         General: "📰",
         Fun: "🎉",
-        core: ''
+        core: '',
+        Xp: `🌟`
       }
       const ignoredCategories = [`moderation`, `Other`, `suggest`, `Warn`, `Mute`]
       fs.readdirSync("./commands/").forEach((dir) => {

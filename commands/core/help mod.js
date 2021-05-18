@@ -2,7 +2,7 @@ const fs = require(`fs`);
 const prefix = `${process.env.PREFIX}`;
 module.exports = {
     name: `help-mod`,
-    aliases: [`mod-help`, `modcommands`, `moderation`],
+    aliases: [`mod-help`, `modcommands`, `moderation`, `helpmod`],
 execute(client, message, args, Discord){
     if(!message.member.permissions.has(`MANAGE_NICKNAMES`)) return message.channel.send(`You Don't Have Permissions!!!!!`);
     const roleColor =
@@ -17,7 +17,7 @@ execute(client, message, args, Discord){
           Fun: "🎉",
           core: ''
         }
-        const ignoredCategories = [`Other`,'General', 'Fun'];
+        const ignoredCategories = ['General', 'Fun', `Xp`];
         fs.readdirSync("./commands/").forEach((dir) => {
           if (ignoredCategories.includes(dir)) return;
   

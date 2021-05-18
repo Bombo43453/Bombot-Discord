@@ -1,5 +1,6 @@
 module.exports = {
     name: `restart`,
+    hidden: true,
     aliases: [`crash`],
     description: `Restart The Bot (Only For People With The Role 'BOTPERM')`,
 async execute(client, message, args, Discord){

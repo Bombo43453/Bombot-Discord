@@ -19,8 +19,10 @@
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
     "axios": "^0.21.1",
+    "canvacord": "^5.2.0",
     "chalk": "^4.1.1",
     "discord-tictactoe": "^2.1.0",
+    "discord-xp": "^1.1.14",
     "discord.js": "^12.5.3",
     "discord.js-commando": "^0.12.3",
     "dotenv": "^8.2.0",

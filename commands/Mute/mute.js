@@ -14,7 +14,7 @@ async execute(client, message, args, Discord){
     const norole = new Discord.MessageEmbed()
     .setTitle(`CREATING MUTED ROLE`)
     .setDescription(`This Is Happening Because I can't Find The Muted Role`)
-    .setFooter(`If THIS IS A MISTAKE, CONTACT B.MITCHELL (Bombo43453#1901)`)
+    .setFooter(``)
 
     const roledone = new Discord.MessageEmbed()
     .setTitle(`Role Created`)

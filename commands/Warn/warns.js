@@ -1,5 +1,6 @@
 const db = require(`../../database/models/warns`)
 const { Message, MessageEmbed} = require(`discord.js`)
+const mongoose = require(`mongoose`);
 
 
 module.exports = {
