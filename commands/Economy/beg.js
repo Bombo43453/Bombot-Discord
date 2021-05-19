@@ -1,53 +1,26 @@
-const Balance = require(`../../database/models/balance`)
-const mongoose = require('mongoose')
-
+const profileModel = require(`../../database/models/profileSchema`)
 module.exports = {
     name: `beg`,
-    description: `Has A Chance of Giving Coins To A User`,
-    async execute(client, message, args, Discord, errorlog) {
-        const chance = Math.floor(Math.random() * 10) + 1;
-        if(chance >= 1 && chance <=3){
-            
-            let balanceProfile = await Balance.findOne({ userID: message.author.id, guildID: message.guild.id})
-            if (!balanceProfile) {
-                balanceProfile = await new Balance({
-                    userID: message.author.id,
-                    guildID: message.guild.id,
-                    lastEdited: Date.now(),
-                });
-                await balanceProfile.save().catch(err => console.log(err) && errorlog.send(`${err}`));
-            }
-            
-           
-            const array = [
-                "Fine Take my spare coins",
-                "Take it, I Only Have a few coins in my pocket",
-                "Here are some coins ",
-                "I Have a little coins to give to you",
-                "Heres Some, but please get a job",
-                "Don't Waste These coins on Beer",
-                "Don't Waste These coins on Gambling",
-            ];
-            const coinsToGive = Math.floor(Math.random() * 7) + 2;
-            const embed = new Discord.MessageEmbed()
-                .setTitle(`Begging...`)
-                .setColor(`${process.env.EMBEDCOLOR}`)
-                .setThumbnail(`${process.env.SERVERLOGO}`)
-                .setDescription(`${array[Math.floor(Math.random() *  6)]}`)
-                .addField(`You Were Given:`, `**${coinsToGive}** Coins`)
-            message.channel.send(embed);
-            await Balance.findOneAndUpdate({ userId: message.author.id, guildID: message.guild.id}, {balance: balanceProfile.balance + coinsToGive, lastEdited: Date.now() });
+    description: `beg for coins`,
+    cooldown: 10,
+    async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData) {
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        if(message.channel.id !== (`${process.env.BOTCOMMANDS}`)) return message.reply(`This must be done in <#${process.env.BOTCOMMANDS}>`)
+        const response = await profileModel.findOneAndUpdate({
+            userID: message.author.id,
 
-        }else{
-            const array1 = [
-                `https://tenor.com/view/awkward-silence-silence-misha-collins-supernatural-spn-gif-5248772`,
-                `No`,
-                'Sorry Nothing In My Pockets',
-                '*Runs And Screams At You*',
-                'Dont Feel Like it',
-                `I don't have anything`,
-            ];
-            message.channel.send(array1[Math.floor(Math.random() * 5)]);
+        }, {
+            $inc: {
+                coins: randomNumber
+            }
         }
+        );
+        const embed = new Discord.MessageEmbed()
+            .setTitle(`Beg`)
+            .setDescription(`${message.author}`)
+            .addField(`You begged and recieved:`, `\`\`\`css\n${randomNumber} coins\`\`\``)
+            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setThumbnail(`${process.env.SERVERLOGO}`)
+        return message.channel.send(embed)
     }
 }

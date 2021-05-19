@@ -5,10 +5,12 @@
      - Moderation Commands 
      - Database Integration 
      - Xp System
-     - Xp Games (slots, tictactoe)
+     - Xp Games 
+     - Economy
+     - Economy Games (beg, etc)
      - Game Integration ( Minecraft, Rust, and More)
      - Ticket System
-     - One Free Addon
+     - One Free Addon (not all addons)
      - Will Have Access To All New Files And Commands
      - Daily Support
      - Anti Spam
@@ -17,6 +19,7 @@
      - Message Logging
      - Audit Logging
      - Reaction Roles
+    - Will help setup a Database
 
 **Add ons**
 * Music Bot  (commands)  :musical_note: ** $2 USD **
@@ -31,3 +34,10 @@
 * 3 Custom Commands **$3 USD**
      - 3 custom commands or features
      - May Take Over A Week To Do, depending on the command
+
+* Help Setup Hosting **$2 USD**
+   - Will help you setup hosting for the bot
+   - Can help with heroku, google cloud or a VPS/ dedicated server
+
+* All Addons **$5 USD **
+   - Will have access to all addons

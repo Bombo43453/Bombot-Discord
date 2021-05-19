@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
 const unmute = require('../commands/Mute/unmute');
 const DiscordStopSpam = require("discord-stop-spam");
-const Levels = require(`discord-xp`);
-const Balance = require(`./../database/models/balance`)
 const mongoose = require(`mongoose`)
+const profileModel = require(`../database/models/profileSchema`)
 
 module.exports = async (client, message) => {
     const errorlog = client.channels.cache.get(`${process.env.ERRORLOG}`)
@@ -56,7 +55,25 @@ module.exports = async (client, message) => {
             timeout: '5000'
         })
     };
-    //Antispam
+
+
+    let profileData;
+    try{
+        profileData = await profileModel.findOne({userID: message.author.id })
+        if(!profileData){
+            let profile = await profileModel.create({
+                userID: message.author.id,
+                serverID: message.guild.id,
+                coins: 50,
+                bank: 0,
+            })
+            profile.save()
+        }
+    }catch(err){
+        console.log(`${err}`)
+        errorlog.send(`${err}`)
+    }
+//Antispam
     await DiscordStopSpam.logAuthor(message.author.id); // Save message author
     await DiscordStopSpam.logMessage(message.author.id, message.content); // Save message content
     const SpamDetected = await DiscordStopSpam.checkMessageInterval(message); // Check sent messages interval
@@ -90,34 +107,7 @@ module.exports = async (client, message) => {
     //Message handler Below
     if (message.channel.type === 'dm') return;
 
-    //XP BELOW
-    const randomXP = Math.floor(Math.random() * 29) + 1; //1-30
-    const hasLeveledUP = await Levels.appendXp(message.author.id, message.guild.id, randomXP);
-    if (hasLeveledUP) {
-        const user = await Levels.fetch(message.author.id, message.guild.id);
-        message.channel.send(`${message.member}, you have proceeded to level ${user.level}.`)
-    }
-    //XP END
-    //ECONOMY BELOW
-    const randomAmountOfCoins = Math.floor(Math.random() * 10) + 5; //5-15 coins
-    const messageGive = Math.floor(Math.random() * 10) + 1 //1-20
-    if (messageGive >= 2 && messageGive <= 5) {
-        let balanceProfile = await Balance.findOne({
-            UserID: message.author.id,
-            guildID: message.guild.id
-        });
-        if (!balanceProfile) {
-            balanceProfile = await new Balance({
-                // _id: mongoose.Types.ObjectID(),
-                userID: message.author.id,
-                guildID: message.guild.id,
-                lastEdited: Date.now(),
-            });
-            await balanceProfile.save().catch(err => errorlog.send(err));
-        }
-        await Balance.findOneAndUpdate({ userID: message.author.id, guildID: message.guild.id}, {balance: balanceProfile.balance + randomAmountOfCoins})
-    }
-
+   
 
     const prefix = `${process.env.PREFIX}`
 
@@ -128,5 +118,6 @@ module.exports = async (client, message) => {
 
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command));
 
-    if (cmd) cmd.execute(client, message, args, Discord, errorlog, botlog, msglog);
+    
+    if (cmd) cmd.execute(client, message, args, Discord, errorlog, botlog, msglog, profileData);
 };

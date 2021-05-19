@@ -32,7 +32,7 @@ module.exports = {
         const dmEmbed = new Discord.MessageEmbed()
             .setTitle(`YOU HAVE BEEN KICKED FROM ${process.env.SERVERNAME}`)
             .setColor(`RED`)
-            .setThumbnail(`${processe.env.SERVERLOGO}`)
+            .setThumbnail(`${process.env.SERVERLOGO}`)
             .setDescription(`You were kicked by ${message.author}`)
             .addFields(
                 {name: `Reason:`, value: `${reason}`, inline: false}

@@ -38,6 +38,6 @@ module.exports = {
     }, catch (error) {
         const errorlog = client.channels.cache.get(`${process.env.ERRORLOG}`)
         message.channel.send("Seems like an error has occured!. Please try again later")
-        errorlogs.send("Error on Creatememe command! \n\nError:\n\n"+error);
+        errorlog.send("Error on Creatememe command! \n\nError:\n\n"+error);
     }
 }

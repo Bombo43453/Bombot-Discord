@@ -16,6 +16,7 @@ async execute(client, message, args, Discord){
         })
     
     }catch (err){
+        errorlog.send(`${err}`)
         message.channel.send(err, {split: true, code: true})
     }
     

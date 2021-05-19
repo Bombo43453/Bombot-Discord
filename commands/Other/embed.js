@@ -12,9 +12,12 @@ module.exports = {
             .setColor(`${process.env.EMBEDCOLOR}`)
             .setTimestamp();
         const logembed = new Discord.MessageEmbed()
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-        .setTitle(`${message.author.username}, Used ${process.env.PREFIX}say in  #${message.channel.name}, Message Below:`)
-        .setDescription(messageToSay)
+        .setTitle(`Say Command (embed) Used`)
+            .addField(`Used By:`, `${message.author}`, true)
+            .addField(`Channel`, `${message.channel}`, true)
+            .addField(`Content`, `${message.content}`)
+            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setThumbnail(`${process.env.SERVERLOGO}`)
         try {
             await message.channel.send(sayEmbed);
             client.channels.cache.get(`${process.env.LOG}`).send(logembed)
