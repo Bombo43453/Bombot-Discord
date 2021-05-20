@@ -5,7 +5,7 @@ module.exports = {
     aliases: [`tictac`, `tictactoe`],
     description: `Simple TicTacToe Game`,
     usage: `(user/ leave blank for AI)`,
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     game.handleMessage(message);
     }
 }

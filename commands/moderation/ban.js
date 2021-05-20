@@ -3,12 +3,12 @@ module.exports = {
     name: "ban",
     description: "Ban A Member",
     usage: `(user) (reason)`,
-        async execute(client, message, args, Discord){
-        if(!message.member.permissions.has(`${process.env.BANPERM}`)) return message.channel.send(`You Don't Have Permissions!!!!!`);
+        async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+        if(!message.member.permissions.has(`${guildProfile.BanPerm}`)) return message.channel.send(`You Don't Have Permissions!!!!!`);
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
        // if (message.mentions.users.first() === `581584824326684672` || `533036968884568065` || `317748198158630913`) return message.channel.send(`Cmon you tried to ban a director!!!`);
-        if (!member) return message.channel.send(`You Must Mention A Member ${process.env.PREFIX}ban (User) (reason)`).then (msg => msg.delete({timeout:3000}));
+        if (!member) return message.channel.send(`You Must Mention A Member ${guildProfile.prefix}ban (User) (reason)`).then (msg => msg.delete({timeout:3000}));
 
         if(message.member.roles.highest.position <= member.roles.highest.position) return message.reply(`You Can't Punish Because You Either Have The Same Role Or Your Role Is Lower Than The Person You Are Trying To Ban`);
         const reason = args.slice(1).join(" ") || "No Reason Provided";
@@ -27,7 +27,7 @@ module.exports = {
         //LOG MESSAGE
         const logembed = new Discord.MessageEmbed()
         .setTitle(`MEMBER BANNED`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .setDescription(`Banned By: ${message.author}`)
         .addFields(
             {name: `Member Banned:`, value: `${member}`, inline: false},
@@ -46,7 +46,8 @@ module.exports = {
 
         if(member){
 
-            message.mentions.users.first().send(DMmessage)
+            try{
+                message.mentions.users.first().send(DMmessage)
             setTimeout(function(){
                 member.ban({ reason })
                 message.channel.send(banembed);
@@ -57,6 +58,10 @@ BANNED BY: ${message.author.tag}
 REASON: ${reason}
 MEMBER BANNED: ${member}`)
              }, 3000);
+            } catch (err){
+                message.channel.send(`You Have Not Set A Log Channel. ${message.guild.owner}, Please do ${guildProfile.prefix}setup to set up your channels.`)
+                return;
+            }
 
         }else{
             channel.send(`${message.author}, Cannot Ban that Member`)

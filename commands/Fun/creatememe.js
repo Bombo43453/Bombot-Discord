@@ -2,14 +2,14 @@ module.exports = {
     name: "creatememe",
     description: `Create Custom Memes do ${process.env.PREFIX}memetemplates for templates`,
     usage: `(template) (Top Text) (Bottom Test)`,
-     async execute(client, message, args, Discord, errorlog){
+     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
         message.delete();
         const memetemplate = args[0];
         if (!memetemplate) {
             const notembed = new Discord.MessageEmbed()
                 .setTitle(`You Did Not Mention A Template`)
                 .setThumbnail(`${process.env.SERVERLOGO}`)
-                .setColor(`${process.env.EMBEDCOLOR}`)
+                .setColor(`${guildProfile.EmbedColor}`)
                 .setDescription(`To See The avaliable meme Templates, Type: \`${process.env.PREFIX}memetemplates\``)
                 .addField(`Usage`, `${process.env.PREFIX}creatememe (template) (Top Text) (Bottom Text)`)
             return message.channel.send(notembed);
@@ -19,7 +19,7 @@ module.exports = {
             topembed = new Discord.MessageEmbed()
                 .setTitle(`Make Sure To Enter The Text To Be Placed On Top`)
                 .setDescription(`A Meme Requires Top Text And A Bottom Text To Be Done (Duh)`)
-                .setColor(`${process.env.EMBEDCOLOR}`)
+                .setColor(`${guildProfile.EmbedColor}`)
                 .setThumbnail(`${process.env.SERVERLOGO}`)
                 .addField(`Usage`, `${process.env.PREFIX}creatememe (template) (Top Text) (Bottom Text)`)
             return message.channel.send(topembed);
@@ -29,7 +29,7 @@ module.exports = {
             bottomembed = new Discord.MessageEmbed()
                 .setTitle(`Make Sure To Enter The Text To Be Placed On The Bottom`)
                 .setDescription(`A Meme Requires Top Text And A Bottom Text To Be Done (Duh)`)
-                .setColor(`${process.env.EMBEDCOLOR}`)
+                .setColor(`${guildProfile.EmbedColor}`)
                 .setThumbnail(`${process.env.SERVERLOGO}`)
                 .addField(`Usage`, `${process.env.PREFIX}creatememe (template) (Top Text) (Bottom Text)`)
             return message.channel.send(bottomembed);

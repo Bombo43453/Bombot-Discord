@@ -5,7 +5,7 @@ module.exports = {
     aliases: ['urbandic', 'urban'],
     description: "looks up a work on the Urban Dictionary",
     usage: `Word`,
-   async execute(client, message, args, Discord){
+   async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     let query = args.join(" ")
     if(!query) message.reply(' Please Specify A Word To Search For');
 
@@ -19,7 +19,7 @@ module.exports = {
        new MessageEmbed()
        .setTitle(answer.word)
        .setURL(answer.permalink)
-       .setColor(`${process.env.EMBEDCOLOR}`)
+       .setColor(`${guildProfile.EmbedColor}`)
        .addField("DEFINITION", trim(answer.definition))
        .addField("EXAMPLE", trim(answer.example))
        .addField("RATINGS", `${answer.thumbs_up} 👍 || ${answer.thumbs_down} 👎`)

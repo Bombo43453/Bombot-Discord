@@ -2,10 +2,10 @@ module.exports = {
     name: "purge",
     description: "removes some messages",
     usage: `(amount of messages)`,
-    async execute(client, message, args, Discord){
+    async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
         const reason = args.join(" ");
         if (!message.guild) return;
-        if (!message.member.hasPermission(`${process.env.PURGE}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions Missing: **MANAGE_MESSAGES**`);
+        if (!message.member.hasPermission(`${guildProfile.PurgePerm}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions Missing: **${guildProfile.PurgePerm}**`);
         if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) return message.channel.send("I Am Missing Permissions (Error Code 102)");
         if (!args[0]) return message.channel.send(`You Must State An Amount To Purge Usage: ${process.env.PREFIX}purge (amount)`);
         const amountToDelete = Number(args[0], 10);
@@ -26,7 +26,7 @@ module.exports = {
                         .setTitle(`Purged Messages`)
                         .setDescription(`${message.author}, Purged ${messages.size} Messages!`)
                         .setTimestamp()
-                        .setColor(`${process.env.EMBEDCOLOR}`)
+                        .setColor(`${guildProfile.EmbedColor}`)
                         .addFields(
                             {name: `Channel:`, value: `<#${message.channel.id}>`, inline: false}
                         )
@@ -35,11 +35,11 @@ module.exports = {
                     message.channel.send(deleteembed).then (async (msg) => {
                         setTimeout(() => {msg.delete(); }, 1000);
                     });
-                    client.channels.cache.get(`${process.env.LOG}`).send(deletembed2);
+                    client.channels.cache.get(`${guildProfile.LogChannel}`).send(deletembed2);
                 });
         }catch (err){
             console.log(err);
-            message.channel.send(`I was Unable To Delete The Amount Stated. Error Code 101`)
+            message.channel.send(`I was Unable To Delete The Amount Stated / You Did Not Setup A Log Channel (do ${guildProfile.prefix}setup) for more information)`)
         }
     }
 }

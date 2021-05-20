@@ -3,15 +3,15 @@ module.exports = {
     description: 'this command kicks a member',
     usage: `(user) (reason)`,
     // permissions:["MUTE_MEMBERS"],
-    execute(client, message, args, Discord){
+    execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
         let reason = args.slice(1).join(" ");
-        if (!message.mentions.users) return message.channel.send(`${message.author}, You Must Mention A User Usage: ${process.env.PREFIX}kick (member) (reason)`)
-        if (!message.member.hasPermission(`${process.env.KICKPERM}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions Missing: **KICK_MEMBERS**`);
-        if (!reason) return message.channel.send(`You Have Not Stated A Reason Usage: ${process.env.PREFIX}kick (member) (reason)`);
+        if (!message.mentions.users) return message.channel.send(`${message.author}, You Must Mention A User Usage: ${guildProfile.prefix}kick (member) (reason)`)
+        if (!message.member.hasPermission(`${guildProfile.KickPerm}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions Missing: **${guildProfile.KickPerm}**`);
+        if (!reason) return message.channel.send(`You Have Not Stated A Reason Usage: ${guildProfile.prefix}kick (member) (reason)`);
         //if (message.mentions.users.first() !== guildMember) return message.channel.send (`You Must Kick A Member In This Server`);
         const modembed = new Discord.MessageEmbed()
             .setTitle(`Kicked By ${message.author.tag}`)
-            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setColor(`${guildProfile.EmbedColor}`)
             .setAuthor(`Member Kicked`)
             .setDescription(`Member Kicked: ${message.mentions.users.first()}`)
             .addFields(
@@ -20,7 +20,7 @@ module.exports = {
         const nomemberembed = new Discord.MessageEmbed() .setDescription(`${message.author}, You Couldn't Kick That Member`);
         const kickembed = new Discord.MessageEmbed()
         .setTitle(`Member Kicked`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .setThumbnail(`${process.env.SERVERLOGO}`)
         .setDescription(`Kicked By: ${message.author}`)
         .addFields(
@@ -38,13 +38,18 @@ module.exports = {
                 {name: `Reason:`, value: `${reason}`, inline: false}
             )
         if(member){
-            message.mentions.users.first().send(dmEmbed)
+            try{
+                message.mentions.users.first().send(dmEmbed)
             setTimeout(function(){
                 memberTarget.kick();
                 message.channel.send(kickembed);
-                client.channels.cache.get(`${process.env.LOG}`).send(modembed);
+                client.channels.cache.get(`${guildProfile.LogChannel}`).send(modembed);
                 require('log-timestamp');
              }, 3000);
+            } catch (err){
+                message.channel.send(`You Have Not Set A Log Channel. ${message.guild.owner}, Please do ${guildProfile.prefix}setup to set up your channels.`)
+                return;
+            }
 
         }else{
             channel.send(`${message.author}, Cannot Kick that Member`)

@@ -2,7 +2,7 @@ module.exports = {
     name: '8ball',
     usage: `(message)`,
     description: "Have An 8ball Predict Your Future",
-execute(client, message, args, Discord){
+execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
 
     if (!args[0]) return message.channel.send(`Please Ask A Full Question`)
 
@@ -26,7 +26,7 @@ const eightball = eightballreplies[Math.floor(Math.random() *eightballreplies.le
 
 const eightembed = new Discord.MessageEmbed()
 .setTitle(`🎱 Eight Ball`)
-.setColor(`${process.env.EMBEDCOLOR}`)
+.setColor(`${guildProfile.EmbedColor}`)
 .addFields(
   {name: `Question:`, value: `${reason}`, inline: false},
   {name: `Reply:`, value: `${eightball}`, inline: false}

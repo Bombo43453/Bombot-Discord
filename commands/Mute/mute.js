@@ -5,7 +5,7 @@ module.exports = {
     name: "mute",
     description: "Mute People",
     usage: `user`,
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const noperms = new Discord.MessageEmbed()
     .setTitle(`INVALID PERMISSIONS`)
     .setDescription(`${message.author}, you have invalid permissions`)
@@ -22,9 +22,9 @@ async execute(client, message, args, Discord){
     const nomemberfound = new Discord.MessageEmbed()
         .setTitle(`Member Not Found`)
         .addFields(
-            {name: `Usage:`, value: `${process.env.PREFIX}mute (user)`}
+            {name: `Usage:`, value: `${guildProfile.prefix}mute (user)`}
         )
-    if(!message.member.hasPermission(`${process.env.MUTEPERM}`)) return message.channel.send(noperms)
+    if(!message.member.hasPermission(`${guildProfile.MutePerm}`)) return message.channel.send(noperms)
         const Member = message.mentions.members.first() || message.guild.members.cache.get(args[0])
         if(!Member) return message.channel.send(nomemberfound)
         const role = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted')
@@ -59,7 +59,7 @@ async execute(client, message, args, Discord){
 
         const nowmuted = new Discord.MessageEmbed()
         .setTitle(`Member Muted`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addFields(
             {name: `User Muted:`, value: `${Member.displayName}`, inline: false},
             {name: `Muted By:`, value: `${message.author}`, inline: false}
@@ -67,7 +67,7 @@ async execute(client, message, args, Discord){
 
         const DMembed = new Discord.MessageEmbed()
         .setTitle(`YOU HAVE BEEN MUTED`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addFields(
             {name: `TIME:`, value: `THIS MUTE HAS NO LIMIT`, inline: false},
             {name: `Appeal Here:`, value: `https://discord.gg/sbYhAmuCZX`, inline: false}
@@ -76,7 +76,7 @@ async execute(client, message, args, Discord){
         const LogEmbed = new Discord.MessageEmbed()
         .setTitle(`Member Muted!`)
         .setDescription(`Muted By: ${message.author}`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addFields(
             {name: `Time`, value: `This Is Not A TempMute (This Mute Has No Limit!!)`},
             {name: `User Muted:`, value: `${Member}`}
@@ -97,13 +97,17 @@ async execute(client, message, args, Discord){
         //     }
         // })
         //DATABASE ONLY ABOVE
-        message.channel.send(nowmuted)
-        require('log-timestamp');
-        console.log(`MEMBER MUTED
-MUTED MEMBER: ${Member}
-MUTED BY: ${message.author.tag}
-TIME: NO LIMIT (NOT A TIMED MUTE)`)
-        Member.send(DMembed)
-        client.channels.cache.get(`${process.env.LOG}`).send(LogEmbed);
+        try{
+            message.channel.send(nowmuted)
+            require('log-timestamp');
+            console.log(`MEMBER MUTED
+    MUTED MEMBER: ${Member}
+    MUTED BY: ${message.author.tag}
+    TIME: NO LIMIT (NOT A TIMED MUTE)`)
+            Member.send(DMembed)
+            client.channels.cache.get(`${process.env.LOG}`).send(LogEmbed);
+        }catch (err){
+            message.channel.send(`${message.guild.owner}, You Have Not Setup A Log Channel. Do ${guildProfile}setup LogChannel (Channel ID)`)
+        }
     }
 };

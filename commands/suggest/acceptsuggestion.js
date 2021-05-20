@@ -4,15 +4,15 @@ module.exports = {
     name: "acceptsuggestion",
     description: "Accept A Suggestion",
     usage: `(messageID) (Reason)`,
-async execute(client, message, args, Discord){
-    if(!message.member.permissions.has(`${process.env.ACCEPTSUGGEST}`)) return message.reply('Invalid permissions');
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+    if(!message.member.permissions.has(`${guildProfile.AcceptPerm}`)) return message.reply('Invalid permissions');
     const messageID = args [0];
     const acceptQuery = args.slice(1).join(" ");
 
-    if(!messageID) return message.reply(`Please Specify A Message ID Usage: !!acceptsuggestion (suggestionID) (Reason)`);
-    if(!acceptQuery) return message.reply(`Please Specify A Reason! Usage: !!acceptsuggestion (SuggestionID) (Reason)`);
+    if(!messageID) return message.reply(`Please Specify A Message ID Usage: ${guildProfile.prefix}acceptsuggestion (suggestionID) (Reason)`);
+    if(!acceptQuery) return message.reply(`Please Specify A Reason! Usage: ${guildProfile.prefix}acceptsuggestion (SuggestionID) (Reason)`);
     try{
-        const suggestedChannel = message.guild.channels.cache.get(`${process.env.SUGGEST}`);
+        const suggestedChannel = message.guild.channels.cache.get(`${guildProfile.SuggestChannel}`);
         const suggestedEmbed = await suggestedChannel.messages.fetch(messageID);
 
         const data = suggestedEmbed.embeds[0];
@@ -27,7 +27,7 @@ message.channel.send(`Done!`)
             const user = client.users.cache.find((u) => u.tag === data.author.name);
             user.send(`Your Suggestion (${data.description}) Has Been Accepted By A Moderator`)
     }catch(err){
-        message.channel.send('That Suggestion Does Not Exist');
+        message.channel.send(`That Suggestion Does Not Exist Or... \n You Have Not Setup A Log Channel. Do ${guildProfile.prefix}setup for more information`)
     }
     }
 }

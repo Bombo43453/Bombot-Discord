@@ -4,15 +4,15 @@ module.exports = {
     name: "denysuggestion",
     description: "Deny A suggestion",
     usage: `(Suggestion ID) (Reason)`,
-async execute(client, message, args, Discord){
-    if(!message.member.permissions.has(`${process.env.ACCEPTSUGGEST}`)) return message.reply('Invalid permissions');
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+    if(!message.member.permissions.has(`${guildProfile.AcceptPerm}`)) return message.reply('Invalid permissions');
     const messageID = args [0];
     const denyQuery = args.slice(1).join(" ");
 
-    if(!messageID) return message.reply(`Please Specify A Message ID Usage: !!denysuggestion (suggestionID) (Reason)`);
-    if(!denyQuery) return message.reply(`Please Specify A Reason! Usage: !!denysuggestion (SuggestionID) (Reason)`);
+    if(!messageID) return message.reply(`Please Specify A Message ID Usage: ${guildProfile.prefix}denysuggestion (suggestionID) (Reason)`);
+    if(!denyQuery) return message.reply(`Please Specify A Reason! Usage: ${guildProfile.prefix}denysuggestion (SuggestionID) (Reason)`);
     try{
-        const suggestedChannel = message.guild.channels.cache.get(`${process.env.SUGGEST}`);
+        const suggestedChannel = message.guild.channels.cache.get(`${guildProfile.SuggestChannel}`);
         const suggestedEmbed = await suggestedChannel.messages.fetch(messageID);
 
         const data = suggestedEmbed.embeds[0];
@@ -27,7 +27,8 @@ async execute(client, message, args, Discord){
             const user = client.users.cache.find((u) => u.tag === data.author.name);
             user.send(`Your Suggestion (${data.description}) Has Been Denied By A Moderator`)
     }catch(err){
-        message.channel.send('That Suggestion Does Not Exist');
+        message.channel.send(`That Suggestion Does Not Exist Or... \n You Have Not Setup A Log Channel. Do ${guildProfile.prefix}setup for more information`);
+        
     }
     }
 }

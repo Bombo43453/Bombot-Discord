@@ -4,12 +4,12 @@ module.exports = {
     name: `Covid`,
     description: `Track a county or worldwide COVID-19 Cases`,
     usage: (`(all/ country)`),
-    async execute(client, message, args, Discord, errorlog) {
+    async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         let countries = args.join(' ');
 
         const noArgs = new Discord.MessageEmbed()
             .setTitle(`Mising Arguments`)
-            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setColor(`${guildProfile.EmbedColor}`)
             .setDescription(`You are Missing Some Args`)
             .addField(`Usage`, `${process.env.PREFIX}covid (all / Country)`)
             .setTimestamp()
@@ -24,7 +24,7 @@ module.exports = {
                         let deaths = data.deaths.value.toLocaleString()
 
                         const embed = new Discord.MessageEmbed()
-                            .setColor(`${process.env.EMBEDCOLOR}`)
+                        .setColor(`${guildProfile.EmbedColor}`)
                             .setThumbnail(`${process.env.SERVERLOGO}`)
                             .setTitle(`World Wide COVID 19 Stats`)
                             .addField(`confirmed Cases`, confirmed)
@@ -42,7 +42,7 @@ module.exports = {
                         let deaths = data.deaths.value.toLocaleString()
 
                         const embed = new Discord.MessageEmbed()
-                            .setColor(`${process.env.EMBEDCOLOR}`)
+                        .setColor(`${guildProfile.EmbedColor}`)
                             .setThumbnail(`${process.env.SERVERLOGO}`)
                             .setTitle(`Covid-19 Stats For **${countries}**`)
                             .addField(`confirmed Cases`, confirmed)

@@ -25,7 +25,7 @@ try{
     );
     const bankembed = new Discord.MessageEmbed()
         .setTitle(`Bank`)
-        .setColor(`BLUE`)
+        .setColor(`GREEN`)
         .setThumbnail(`${process.env.SERVERLOGO}`)
         .setDescription(`You depositied **${amount}** coins into the bank. `)
         message.channel.send(bankembed)

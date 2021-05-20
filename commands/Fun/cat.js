@@ -4,7 +4,7 @@ module.exports = {
     name: `cutecat`,
     description: `Show A Kitten`,
     aliases: [`kitten`, `cat`],
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const subreddits = [`cat`, `cats`];
     const subreddit = subreddits[Math.floor(Math.random() * (subreddits.length))];
     const meme = await api.advanced(subreddit);
@@ -14,7 +14,7 @@ async execute(client, message, args, Discord){
         .setURL(`https://reddit.com/r/${subreddit}`)
         .setDescription(`Posted by u/**${meme.author}**`)
         .setImage(meme.img)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .setFooter(`👍 ${meme.upvotes}  👎 ${meme.downvotes} (If image did not load, try again)`)
     message.channel.send(embed)
 

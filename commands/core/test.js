@@ -2,9 +2,10 @@ module.exports = {
     name: `test`,
     description: `test`,
     hidden: true,
-async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData){
-errorlog.send(`test`)
-botlog.send(`test`)
-msglog.send(`test`)
+    aliases: [``],
+    usage: ``,
+
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+message.channel.send(`I Work... Or do I?`)
 }
 }

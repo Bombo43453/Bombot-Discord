@@ -6,7 +6,7 @@ module.exports = {
     description:`Show The Weather At A Location You Desire`,
     usage: "(location)",
 
-    async execute (client, message, args, Discord){
+    async execute (client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
 
     weather.find({search: args.join(" "), degreeType: 'F'}, function (error, result){
         if(error) return message.channel.send(error);
@@ -22,7 +22,7 @@ module.exports = {
         .setDescription(`**${current.skytext}**`)
         .setAuthor(`Weather forecast for ${current.observationpoint}`)
         .setThumbnail(current.imageUrl)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addField('Timezone', `UTC${location.timezone}`, true)
         .addField('Degree Type', 'Celsius', true)
         .addField('Temperature', `${current.temperature}°`, true)

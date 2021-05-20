@@ -5,7 +5,7 @@ module.exports = {
     aliases: [`memes`],
     description: `Display A Meme`,
     usage: ``,
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const subreddits = ['meme', 'dankmemes', 'memes',];
     const subreddit = subreddits[Math.floor(Math.random() * (subreddits.length))];
     const meme = await api.advanced(subreddit);
@@ -15,7 +15,7 @@ async execute(client, message, args, Discord){
         .setURL(`https://reddit.com/r/${subreddit}`)
         .setDescription(`${meme.upvoteRatio}% of people liked this. Posted by u/**${meme.author}**`)
         .setImage(meme.img)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .setFooter(`👍 ${meme.upvotes}  👎 ${meme.downvotes}`)
     message.channel.send(embed)
 

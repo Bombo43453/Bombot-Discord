@@ -3,7 +3,7 @@ module.exports = {
     name: `withdraw`,
    aliases: ['wit'],
    description: `Withdraw Money from the bank.`,
-async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const amount = args[0];
     if(amount % 1 != 0 || amount <= 0) return message.channel.send(`Withdraw amount must be a whole number!`);
     
@@ -25,7 +25,7 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
        
       const bankembed = new Discord.MessageEmbed()
         .setTitle(`Bank`)
-        .setColor(`BLUE`)
+        .setColor(`GREEN`)
         .setThumbnail(`${process.env.SERVERLOGO}`)
         .setDescription(`You Withdrawed **${amount}** coins into your pockets. `)
          message.channel.send(bankembed);

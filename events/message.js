@@ -3,13 +3,12 @@ const unmute = require('../commands/Mute/unmute');
 const DiscordStopSpam = require("discord-stop-spam");
 const mongoose = require(`mongoose`)
 const profileModel = require(`../database/models/profileSchema`)
+const Guild = require(`../database/models/guildSchema`)
+const Levels = require('discord-xp');
 
 module.exports = async (client, message) => {
-    const errorlog = client.channels.cache.get(`${process.env.ERRORLOG}`)
-    const botlog = client.channels.cache.get(`${process.env.LOG}`)
-    const msglog = client.channels.cache.get(`${process.env.MSGLOG}`)
     if (message.author.bot) return;
-
+    const errorlog = client.channels.cache.get(`${process.env.ERRORLOG}`)
     const logChannel = client.channels.cache.find(channel => channel.id === `${process.env.MSGLOG}`)
     let words = ["Roblox", "I'm Leaving", "nibba", "faggot", "fag", "nigger", "nigga", "beaner", "niglet", "anal", "jack off", "ni88a", "jerk off", "I'm hard", "Jerk me ", "ICRP IS SHIT"]
     //ADD TO THE WORDS ABOVE, FOLLOW FORMAT
@@ -71,7 +70,6 @@ module.exports = async (client, message) => {
         }
     }catch(err){
         console.log(`${err}`)
-        errorlog.send(`${err}`)
     }
 //Antispam
     await DiscordStopSpam.logAuthor(message.author.id); // Save message author
@@ -103,14 +101,42 @@ module.exports = async (client, message) => {
         })
         client.channels.cache.get(`${process.env.MSGLOG}`).send(embed3);
     };
+//SUPA SPECIAL BELOW
+if (message.channel.type === 'dm') return;
+//XP BELOW
+const randomXP = Math.floor(Math.random() * 29) + 1; //1-30
+const hasLeveledUP = await Levels.appendXp(message.author.id, message.guild.id, randomXP);
+if (hasLeveledUP) {
+    const user = await Levels.fetch(message.author.id, message.guild.id);
+    message.channel.send(`${message.member}, you have proceeded to level ${user.level}.`)
+}
+
 
     //Message handler Below
-    if (message.channel.type === 'dm') return;
+
 
    
+    let guildProfile = await Guild.findOne({
+            guildID: message.guild.id,
+        })
+        if (!guildProfile) {
+            const creating = new Discord.MessageEmbed()
+                .setTitle(`Creating Settings Profile...`)
+                .setDescription(`Once This Is Ready, Run .setup To Set Up...`)
+                .setColor(`${process.env.EMBEDCOLOR}`)
+            const createmsg = await message.channel.send(creating)
+            guildProfile = await new Guild({
+                guildID: message.guild.id,
+                guildName: message.guild.name,
+            });
+            await guildProfile.save().catch(err => console.log(err) && message.channel.send(`${err}`) && message.channel.send(`An Error Has Occured, Please make a bug report with (prefix)botbug`))
+            createmsg.reply(`Profile Made.`)
+        }
+        
+        const botlog = client.channels.cache.get(`${guildProfile.LogChannel}`)
+        const msglog = client.channels.cache.get(`${guildProfile.MessageLog}`)
 
-    const prefix = `${process.env.PREFIX}`
-
+        const prefix = guildProfile.prefix
     if (message.content.indexOf(prefix) !== 0) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -119,5 +145,5 @@ module.exports = async (client, message) => {
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command));
 
     
-    if (cmd) cmd.execute(client, message, args, Discord, errorlog, botlog, msglog, profileData);
+    if (cmd) cmd.execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile);
 };

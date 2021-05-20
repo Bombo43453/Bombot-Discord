@@ -4,36 +4,36 @@ module.exports = {
     name: "tempmute",
     description: "Mute Someone For A Temporary Amount",
     usage: `(user) (Time (IE: 10s or 10d)`,
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const noperms = new Discord.MessageEmbed()
     .setTitle(`INVALID PERMISSIONS`)
     .setDescription(`${message.author}, you have invalid permissions`)
     .setFooter(` If you think this is a mistake, please make a ticket`)
-    .setColor(`${process.env.EMBEDCOLOR}`)
+    .setColor(`${guildProfile.EmbedColor}`)
 
     const nomemberfound = new Discord.MessageEmbed()
         .setTitle(`Member Not Found`)
         .addFields(
-            {name: `Usage:`, value: `${process.env.PREFIX}tempmute (user) (time)`}
+            {name: `Usage:`, value: `${guildProfile.prefix}tempmute (user) (time)`}
         )
 
 
     const noTIMEembed = new Discord.MessageEmbed()
     .setTitle(`Please Specify A Time `)
     .addFields(
-     {name: `Usage:`, value: `${process.env.PREFIX}tempmute (user) (time)`},
+     {name: `Usage:`, value: `${guildProfile.prefix}tempmute (user) (time)`},
     )
 
 
     const norole = new Discord.MessageEmbed()
     .setTitle(`CREATING MUTED ROLE`)
     .setDescription(`This Is Happening Because I can't Find The Muted Role`)
-    .setFooter(`If THIS IS A MISTAKE, CONTACT B.MITCHELL (Bombo43453#1901)`)
+    .setFooter(`If This Is A Mistake, Do ${guildProfile.prefix}botbug`)
 
     const roledone = new Discord.MessageEmbed()
     .setTitle(`Role Created`)
 
-    if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(noperms)
+    if(!message.member.hasPermission(`${guildProfile.MutePerm}`)) return message.channel.send(noperms)
     const Member = message.mentions.members.first() || message.guild.members.cache.get(args[0])
     const time = args[1]
     if(!Member) return message.channel.send(nomemberfound)
@@ -65,11 +65,11 @@ async execute(client, message, args, Discord){
         .setTitle(`Member Already Muted`)
         .setDescription(`${message.author}, ${Member.displayName}, Has Already Been Muted!`)
         .setFooter(`If You Think This Was A Mistake Make A Ticket`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
 
     const nowmuted = new Discord.MessageEmbed()
         .setTitle(`Member Muted`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addFields(
             {name: `User Muted:`, value: `${Member.displayName}`, inline: false},
             {name: `Muted By:`, value: `${message.author}`, inline: false}
@@ -86,7 +86,7 @@ async execute(client, message, args, Discord){
      const LogEmbed = new Discord.MessageEmbed()
         .setTitle(`Member Muted!`)
         .setDescription(`Muted By: ${message.author}`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addFields(
             {name: `Time`, value: `${time}`, inline: false},
             {name: `User Muted:`, value: `${Member}`, inline: false}
@@ -94,7 +94,7 @@ async execute(client, message, args, Discord){
 
     const UnmuteEmbed = new Discord.MessageEmbed()
     .setTitle(`Member Unmuted`)
-    .setColor(`${process.env.EMBEDCOLOR}`)
+    .setColor(`${guildProfile.EmbedColor}`)
     .addFields(
         {name: `Unmuted Member:`, value: `${Member.tag}`, inline: false},
         {name: `Time Muted For:`, value: `${time}`, inline: false}
@@ -106,9 +106,10 @@ async execute(client, message, args, Discord){
 
     let role2 = message.guild.roles.cache.find(r => r.name.toLowerCase() === 'muted')
     if(Member.roles.cache.has(role2.id)) return message.channel.send(already)
-    await Member.roles.add(role2)
+    try{
+        await Member.roles.add(role2)
     message.channel.send(nowmuted)
-    client.channels.cache.get(`${process.env.LOG}`).send(LogEmbed);
+    client.channels.cache.get(`${guildProfile.LogChannel}`).send(LogEmbed);
     require('log-timestamp');
         console.log(`MEMBER MUTED
 MEMBER: ${Member},
@@ -118,9 +119,12 @@ TIME: ${time}`)
     setTimeout(async () => {
         await Member.roles.remove(role2)
         Member.send(UnMuteDM)
-        client.channels.cache.get(`${process.env.LOG}`).send(UnmuteEmbed)
+        client.channels.cache.get(`${guildProfile.LogChannel}`).send(UnmuteEmbed)
 
     }, ms(time));
+    } catch (err){
+        message.channel.send(`An Error Has Occured \n This Is Most Likely Because You Have Not Set A Log Channel. Do ${guildProfile.prefix}setup For more information`)
+    }
 
     }
 }

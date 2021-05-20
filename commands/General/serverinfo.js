@@ -3,11 +3,11 @@ module.exports = {
     aliases: [`server-info`, `infoserver`],
     description: `display server info`,
     usage: ``,
-async execute(client, message, args, Discord){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const embed = new Discord.MessageEmbed()
         .setTimestamp()
         .setTitle("**Server Information**")
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .setThumbnail(message.guild.iconURL({ dynamic: true }))
         .addField(` Name of server:`, message.guild.name, true)
         .addField(`Server Owner`, message.guild.owner, true)  

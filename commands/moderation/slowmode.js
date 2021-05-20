@@ -3,8 +3,8 @@ module.exports = {
     name: `slowmode`,
     description: `Trigger Slowmode In A Channel`,
     usage: `(time (ms)`,
-    async execute(client, message, args, Discord) {
-        if(!message.member.permissions.has(`ADMINISTRATOR`)) return;
+    async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
+        if(!message.member.permissions.has(`ADMINISTRATOR`)) return message.channel.send(`Only People With The Administrator Permission Can Do This.`)
         if(!args[0]) {
         message.channel.setRateLimitPerUser(0);
         return message.channel.send(`The Slowmode Has Been Removed/ Set to 0`); 
@@ -21,7 +21,7 @@ module.exports = {
 
         const set = new Discord.MessageEmbed()
             .setTitle(`Slowmode Set`)
-            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setColor(`${guildProfile.EmbedColor}`)
             .setThumbnail(`${process.env.SERVERLOGO}`)
             .setDescription(`Slowmode in this channnel has been set to ${ms(milliseconds, {
                 long: true

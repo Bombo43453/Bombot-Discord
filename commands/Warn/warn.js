@@ -8,30 +8,31 @@ module.exports = {
     aliases: [`warning`],
     description: `Warn A User`,
     usage: `(user) (reason)`,
-async execute(client, message, args, Discord){
-    if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(`You Do Not Have Permission To Use This Command`)
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+    if(!message.member.hasPermission(`${guildProfile.WarnPerm}`)) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-    const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${process.env.prefix}warn (user/id)`)
+    if (user.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`You cannot warn an administrator.`)
+    const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${guildProfile.prefix}warn (user/id)`)
         const nousers = new Discord.MessageEmbed()
             .setTitle(`User Not Found`)
-            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setColor(`${guildProfile.EmbedColor}`)
             .setThumbnail(`${process.env.SERVERLOGO}`)
             .setDescription(`Make Sure You Mentioned A User In This Guild`)
-            .addField(`Usage:`, `${process.env.PREFIX}warn (user) (reason)`)
+            .addField(`Usage:`, `${guildProfile.prefix}warn (user) (reason)`)
     if(!user) return message.channel.send(nousers)
     const reason = args.slice(1).join(" ");
         const reasonembed = new Discord.MessageEmbed()
             .setTitle(`Invalid Usage`)
-            .setColor(`${process.env.EMBEDCOLOR}`)
+            .setColor(`${guildProfile.EmbedColor}`)
             .setThumbnail(`${process.env.SERVERLOGO}`)
-            .addField(`Usage:`, `${process.env.PREFIX}warn (user) (reason)`)
+            .addField(`Usage:`, `${guildProfile.prefix}warn (user) (reason)`)
 
     if(!reason){
         const noreason = new Discord.MessageEmbed()
             .setTitle(`No Reason Provided`)
             .setDescription(`Make Sure To Provide A Reason When Doing A Warning`)
-            .addField(`Usage:`, `${process.env.PREFIX}warn (user) (reason)`)
-            .setColor(`${process.env.EMBEDCOLOR}`)
+            .addField(`Usage:`, `${guildProfile.prefix}warn (user) (reason)`)
+            .setColor(`${guildProfile.EmbedColor}`)
             .setThumbnail(`${process.env.SERVERLOGO}`)
         message.channel.send(noreason)
         return;
@@ -62,20 +63,25 @@ async execute(client, message, args, Discord){
     user.send(new MessageEmbed()
         .setTitle(`You Have Been Warned`)
         .setThumbnail(`${process.env.SERVERLOGO}`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .addField(`Reason:`, `${reason}`)
         .addField(`Warned By:`, `${message.author}`)
         .setTimestamp()
     )
     const embedy = new Discord.MessageEmbed()
         .setTitle(`User Warned`)
-        .setColor(`${process.env.EMBEDCOLOR}`)
+        .setColor(`${guildProfile.EmbedColor}`)
         .setThumbnail(`${process.env.SERVERLOGO}`)
         .addField(`User Warned:`, `${user}`, true)
         .addField(`Warned By:`, `${message.author}`, true)
         .addField(`Reason:`, `${reason}`, false)
         .setTimestamp()
         message.channel.send(embedy)
-        client.channels.cache.get(`${process.env.LOG}`).send(embedy)
+        try{
+            client.channels.cache.get(`${guildProfile.LogChannel}`).send(embedy)
+        } catch (err){
+            message.channel.send(`Missing Log Channel. Make sure you have set a log channel by doing ${guildProfile.prefix}setup LogChannel (Channel ID)`)
+        }
+        
     }
 }
