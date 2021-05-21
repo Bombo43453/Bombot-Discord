@@ -1,6 +1,6 @@
 const profileModel = require(`../../database/models/profileSchema`)
 module.exports = {
-    name: `deposit`,
+    name: `deposit213123`,
     description: `Deposit coins into your bank!`,
     aliases: [`dep`],
     usage: `(amount)`,
@@ -15,6 +15,7 @@ try{
     await profileModel.findOneAndUpdate(
         {
             userID: message.author.id,
+            serverID: message.guild.id,
         },
         {
             $inc: {

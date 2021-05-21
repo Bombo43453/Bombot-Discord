@@ -5,6 +5,7 @@ module.exports = {
     description: "Deny A suggestion",
     usage: `(Suggestion ID) (Reason)`,
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+    if (guildProfile.Suggest == (`disabled`)) return message.channel.send(`Suggestions Are Disabled.`)
     if(!message.member.permissions.has(`${guildProfile.AcceptPerm}`)) return message.reply('Invalid permissions');
     const messageID = args [0];
     const denyQuery = args.slice(1).join(" ");

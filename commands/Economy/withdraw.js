@@ -1,6 +1,6 @@
 const profileModel = require(`../../database/models/profileSchema`)
 module.exports = {
-    name: `withdraw`,
+    name: `withdraw131232`,
    aliases: ['wit'],
    description: `Withdraw Money from the bank.`,
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
@@ -13,6 +13,7 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
         await profileModel.findOneAndUpdate(
             {
                 userID: message.author.id,
+                serverID: message.guild.id
             },
             {
                 $inc: {

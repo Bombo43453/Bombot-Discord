@@ -5,6 +5,7 @@ module.exports = {
     description: "make a suggestion",
     usage: `Suggestion`,
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+    if (guildProfile.Suggest == (`false`)) return;
     const suggestionQuery = args.join(" ")
     if(!suggestionQuery) return message.reply(' Please Specify A Suggestion!')
         const embed = new MessageEmbed()
@@ -23,7 +24,7 @@ try{
             });
             message.channel.send(`Submitted Suggestion Check <#${guildProfile.SuggestChannel}>`)
         } catch (err){
-            console.log(err)
+            // console.log(err)
             message.channel.send(`Error.. You Have Not Set A Suggestion Channel ${message.guild.owner}, please do ${guildProfile.prefix}settings to set this up`)
         }
     },

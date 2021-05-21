@@ -15,7 +15,8 @@ execute(client, message, args, Discord){
         const dirEmojis = {
           General: "📰",
           Fun: "🎉",
-          core: ''
+          core: '',
+          ReactionRoles: `🎁`,
         }
         const ignoredCategories = ['General', 'Fun', `Xp`, `Economy`, `Music`];
         fs.readdirSync("./commands/").forEach((dir) => {

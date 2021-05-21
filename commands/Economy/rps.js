@@ -1,6 +1,6 @@
 const profileModel = require(`../../database/models/profileSchema`)
 module.exports = {
-    name: `rps`,
+    name: `rps1231231`,
     description: `Rock Paper Scissors`,
     hidden: true,
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
@@ -46,7 +46,7 @@ module.exports = {
             const amount = -5;
                 const response = await profileModel.findOneAndUpdate({
                     userID: message.author.id,
-        
+                    serverID: message.guild.id,
                 }, {
                     $inc: {
                         coins: amount,
@@ -73,7 +73,7 @@ module.exports = {
                 const amount1 = 20;
                 const losereponse = await profileModel.findOneAndUpdate({
                     userID: message.author.id,
-        
+                    serverID: message.guild.id,
                 }, {
                     $inc: {
                         coins: amount1,

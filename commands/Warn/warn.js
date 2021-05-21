@@ -11,7 +11,7 @@ module.exports = {
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     if(!message.member.hasPermission(`${guildProfile.WarnPerm}`)) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-    if (user.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`You cannot warn an administrator.`)
+   if (user.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`You cannot warn an administrator.`)
     const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${guildProfile.prefix}warn (user/id)`)
         const nousers = new Discord.MessageEmbed()
             .setTitle(`User Not Found`)

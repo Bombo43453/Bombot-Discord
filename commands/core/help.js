@@ -20,7 +20,7 @@ module.exports = {
         Economy: `:coin:`,
         Music: `🎵`,
       }
-      const ignoredCategories = [`moderation`, `Other`, `suggest`, `Warn`, `Mute`,]
+      const ignoredCategories = [`moderation`, `Other`, `suggest`, `Warn`, `Mute`, `ReactionRoles`, `Economy`]
       fs.readdirSync("./commands/").forEach((dir) => {
         if (ignoredCategories.includes(dir)) return;
 

@@ -1,6 +1,6 @@
 const profileModel = require(`../../database/models/profileSchema`)
 module.exports = {
-    name: `addcoins`,
+    name: `addcoins123123`,
     description: `Give a player some coins`,
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData) {
         if (!message.member.permissions.has(`ADMINISTRATOR`)) return message.channel.send(`You Don't Have Permissions!!!!!`);
@@ -13,12 +13,14 @@ module.exports = {
 
         try {
             const targetData = await profileModel.findOne({
-                userID: target.id
+                userID: target.id,
+                serverID: message.guild.id,
             });
             if (!targetData) return message.channel.send(`This user does not exist in the database.`)
 
             await profileModel.findOneAndUpdate({
-                userId: target.id,
+                userID: target.id,
+                serverID: message.guild.id,
             }, {
                 $inc: {
                     coins: amount,

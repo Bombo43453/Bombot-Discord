@@ -27,14 +27,16 @@ module.exports = {
             let embed = new Discord.MessageEmbed()
                 .setTitle(`${message.guild.name}'s Settings:`)
                 .setDescription(`To Assign A Value to A Property Do: ${guildProfile.prefix}settings (property) (value)`)
-                .addField(`Avaliable Properties/Settings:`, `**General Properties:** \`Prefix\` \`EmbedColor\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n \n **All Active Properties Below** (if you are seeing a missing property or no property, that means there has been no value assigned to the property. Please Assign a value to the properties.)`)
+                .addField(`Avaliable Properties/Settings:`, `**General Properties:** \`Prefix\` \`EmbedColor\` \`Suggestions\`  \`AuditLogging\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n \n **All Active Properties Below** (if you are seeing a missing property or no property, that means there has been no value assigned to the property. Please Assign a value to the properties.)`)
                 .setColor(`${process.env.EMBEDCOLOR}`)
                 .setThumbnail(`${process.env.SERVERLOGO}`)
             if (guildProfile.prefix) embed.addField(`Prefix:`, `${guildProfile.prefix}`)
             if (guildProfile.EmbedColor) embed.addField(`Embed Color:`, `${guildProfile.EmbedColor}`)
             if (guildProfile.LogChannel) embed.addField(`Log Channel:`, `${guildProfile.LogChannel}`)
+            if (guildProfile.Suggest) embed.addField(`Suggestions :`, `${guildProfile.Suggest}`)
             if (guildProfile.SuggestChannel) embed.addField(`Suggest Channel:`, `${guildProfile.SuggestChannel}`)
-            if (guildProfile.MessageLog) embed.addField(`Audit Log Channe:`, `${guildProfile.MessageLog}`)
+            if (guildProfile.AuditLogging) embed.addField(`Audit Logging:`, `${guildProfile.AuditLogging}`)
+            if (guildProfile.MessageLog) embed.addField(`Audit Log Channel:`, `${guildProfile.MessageLog}`)
             if (guildProfile.BanPerm) embed.addField(`Ban Permision:`, `${guildProfile.BanPerm}`)
             if (guildProfile.PurgePerm) embed.addField(`Purge Permision:`, `${guildProfile.PurgePerm}`)
             if (guildProfile.SayPerm) embed.addField(`Say (command) Permision:`, `${guildProfile.SayPerm}`)
@@ -43,6 +45,7 @@ module.exports = {
             if (guildProfile.AcceptPerm) embed.addField(`Accept/Deny Suggestion Permision:`, `${guildProfile.AcceptPerm}`)
             if (guildProfile.KickPerm) embed.addField(`Kick Permission`, `${guildProfile.KickPerm}`)
             if (guildProfile.WarnPerm) embed.addField(`Warn Permission`, `${guildProfile.WarnPerm}`)
+            
             message.channel.send(embed)
         } else {
             if (![`Prefix`,
@@ -57,8 +60,11 @@ module.exports = {
                     `CeasePermission`,
                     `AcceptSuggestionPermission`,
                     `KickPermission`,
-                    `WarnPermission`
-                ].includes(args[0])) return message.channel.send(`You Need To State A Valid Property to update. (Make Sure It Is Spelled Correctly ..Case Sensitive..) Valid Properties: \n \`Prefix\` \`EmbedColor\` \`LogChannel\` \`SuggestChannel\` \`AuditlogChannel\` \`BanPermission\` \`PuurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``);
+                    `WarnPermission`,
+                    `Suggestions`,
+                    `AuditLogging`,
+                    `Suggestion`
+                ].includes(args[0])) return message.channel.send(`You did not state A Valid Property. Valid Properties: **General Properties:** \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n \n`);
             if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
             if (`Prefix` === args[0]) {
                 await Guild.findOneAndUpdate({
@@ -69,7 +75,7 @@ module.exports = {
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`);
             } else if (`EmbedColor` === args[0]) {
-                if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
+               if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
                 if (![`DEFAULT`, `AQUA`, `DARK_AQUA`, `GREEN`, `DARK_GREEN`, `BLUE`, `DARK_BLUE`, `PURPLE`, `DARK_PURPLE`, `LUMINIOUS_VIVID_PINK`, `DARK_VIVID_PINK`, `GOLD`, `DARK_GOLD`, `ORANGE`, `DARK_ORANGE`, `RED`, `DARK_GREY`, `DARKER_GREY`, `LIGHT_GREY`, `NAVY`, `DARK_NAVY`, `YELLOW`, `WHITE`, `BLURPLE`, `GREYPLE`, `DARK_BUT_NOT_BLACK`, `NOT_QUITE_BLACK`].includes(args[1])) return message.channel.send(`You Need To Choose From These Avaliable Colors: \n \`DEFAULT\` \`AQUA\` \`DARK_AQUA\` \`GREEN\` \`DARK_GREEN\` \`BLUE\` \`DARK_BLUE\` \`PURPLE\` \`DARK_PURPLE\` \`LUMINIOUS_VIVID_PINK\` \`DARK_VIVID_PINK\` \`GOLD\` \`DARK_GOLD\` \`ORANGE\` \`DARK_ORANGE\` \`RED\` \`DARK_RED\` \`GREY\` \`DARK_GREY\` \`DARKER_GREY\` \`LIGHT_GREY\` \`NAVY\` \`DARK_NAVY\` \`YELLOW\` \`WHITE\` \`BLURPLE\` \`GREYPLE\` \`DARK_BUT_NOT_BLACK\` \`NOT_QUITE_BLACK\``)
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -184,7 +190,40 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            }    
+            
+            } else if (`AuditLogging` === args[0]){
+                if(![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One OF The Following Values: \n \`enable\` \`disable\` `);
+                let hi = '1';
+                if(args[1] === `disable`) {
+                    hi = `disabled`
+                }
+                if(args[1] === `enable`){
+                    hi = `enabled`
+                }
+                await Guild.findOneAndUpdate({
+                    guildID: message.guild.id
+                }, {
+                    AuditLogging: hi,
+                    lastEdited: Date.now()
+                })
+                message.channel.send(`Updated ${args[0]} to ${hi}`)
+            } else if (`Suggestions` || `Suggestion` === args[0]){
+                    if(![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One OF The Following Values: \n \`enable\` \`disable\` `);
+                    let hi = '1';
+                    if(args[1] === `disable`) {
+                        hi = `disabled`
+                    }
+                    if(args[1] === `enable`){
+                        hi = `enabled`
+                    }
+                    await Guild.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        Suggest: hi,
+                        lastEdited: Date.now()
+                    })
+                    message.channel.send(`Updated ${args[0]} to ${hi}`)
+                }
         }
 
     }

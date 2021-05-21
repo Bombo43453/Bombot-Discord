@@ -19,7 +19,7 @@ module.exports = {
             await message.channel.send(messageToSay);
             client.channels.cache.get(`${guildProfile.LogChannel}`).send(logembed)
         }catch (err){
-            errorlog.send(`${err}`)
+            //errorlog.send(`${err}`)
             message.channel.send(`${message.author}, I am not Able To Send That Message \n It is Either Over 2000 Characters or \n You Have Not Setup A Log Channel. Do ${guildProfile.prefix}setup For more information`)
         }
 
