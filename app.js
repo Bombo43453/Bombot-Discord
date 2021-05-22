@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { Client } = require(`discord.js`)
+const {Client} = require('discord.js')
 const client = new Client( {partials: ['CHANNEL', 'MESSAGE', 'GUILD_MEMBER', 'REACTION'],})
 const levels = require('discord-xp');
 require('dotenv').config();
