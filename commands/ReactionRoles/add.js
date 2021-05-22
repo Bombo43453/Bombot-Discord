@@ -7,16 +7,16 @@ module.exports = {
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         if(!message.member.permissions.has(`ADMINISTRATOR`)) return message.channel.send(`You Must Be An Administrator To Do This`);
         const role = message.mentions.roles.first();
-        if(!role) return message.channel.send(`You Must Mention A Role.`)
+        if(!role) return message.channel.send(`You Must Mention A Role. \n Usage: \`${guildProfile.prefix}addreaction (role) (reaction)\``)
 
         let[, emoji] = args
-        if(!emoji) return message.reply(`Please Specify An Emoji/Reaction`)
+        if(!emoji) return message.reply(`Please Specify An Emoji/Reaction \n Usage: \`${guildProfile.prefix}addreaction (role) (reaction)\``)
 
         const parsedEmoji = Util.parseEmoji(emoji);
 
         Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
             if(data) {
-                data.Roles[pasedEmoji.name] = [
+                data.Roles[parsedEmoji.name] = [
                     role.id,
                     {
                         id: parsedEmoji.id,
@@ -39,7 +39,7 @@ module.exports = {
                     },
                 }).save()
             }
-            message.channel.send(`New Role Added`) 
+            message.channel.send(`New Role Added \n Do: \`${guildProfile.prefix}panel\` To Get Reaction Role Panel`) 
         })
     }
 }
