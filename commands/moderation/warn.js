@@ -6,10 +6,11 @@ const mongoose = require(`mongoose`);
 module.exports = {
     name: `warn`,
     aliases: [`warning`],
+    hidden: true,
     description: `Warn A User`,
     usage: `(user) (reason)`,
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
-    const db = require(`./../../database/models/warns`)
+    const db = require(`../../database/models/warns`)
     if(!message.member.hasPermission(`${guildProfile.WarnPerm}`)) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
     const nousers = new Discord.MessageEmbed()

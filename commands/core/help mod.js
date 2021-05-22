@@ -18,7 +18,7 @@ execute(client, message, args, Discord){
           core: '',
           ReactionRoles: `🎁`,
         }
-        const ignoredCategories = ['General', 'Fun', `Xp`, `Economy`, `Music`];
+        const ignoredCategories = ['General', 'Fun', `Xp`, `Economy`, `Music`, `Warn`];
         fs.readdirSync("./commands/").forEach((dir) => {
           if (ignoredCategories.includes(dir)) return;
   

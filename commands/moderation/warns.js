@@ -7,8 +7,9 @@ module.exports = {
     name: `warns`,
     aliases: [`warnings`],
     description: `Check A User's Warnings`,
+    hidden: true,
 async execute(client, message, args, Discord){
-    const db = require(`./../../database/models/warns`)
+    const db = require(`../../database/models/warns`)
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
     const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${process.env.prefix}warn (user/id)`)
