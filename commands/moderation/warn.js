@@ -6,7 +6,7 @@ const mongoose = require(`mongoose`);
 module.exports = {
     name: `warn`,
     aliases: [`warning`],
-    hidden: true,
+ //   hidden: true,
     description: `Warn A User`,
     usage: `(user) (reason)`,
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){

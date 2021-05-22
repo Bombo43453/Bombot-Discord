@@ -7,7 +7,7 @@ module.exports = {
     name: `clearwarning`,
     aliases: [`clearwarn`, `clearwarns`, `remove-all-warns`, `clearwarnings`],
     description: `Clear All Of A User's Warnings`,
-    hidden: true,
+ //   hidden: true,
     usage: `(user) (reason)`,
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const db = require(`../../database/models/warns`)

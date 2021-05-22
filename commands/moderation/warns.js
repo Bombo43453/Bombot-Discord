@@ -7,7 +7,7 @@ module.exports = {
     name: `warns`,
     aliases: [`warnings`],
     description: `Check A User's Warnings`,
-    hidden: true,
+   // hidden: true,
 async execute(client, message, args, Discord){
     const db = require(`../../database/models/warns`)
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(`You Do Not Have Permission To Use This Command`)
