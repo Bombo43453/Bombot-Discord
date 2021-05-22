@@ -12,15 +12,16 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
     const db = require(`./../../database/models/warns`)
     if(!message.member.hasPermission(`${guildProfile.WarnPerm}`)) return message.channel.send(`You Do Not Have Permission To Use This Command`)
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-   if (user.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`You cannot warn an administrator.`)
-    const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${guildProfile.prefix}warn (user/id)`)
-        const nousers = new Discord.MessageEmbed()
+    const nousers = new Discord.MessageEmbed()
             .setTitle(`User Not Found`)
             .setColor(`${guildProfile.EmbedColor}`)
             .setThumbnail(`${process.env.SERVERLOGO}`)
             .setDescription(`Make Sure You Mentioned A User In This Guild`)
             .addField(`Usage:`, `${guildProfile.prefix}warn (user) (reason)`)
     if(!user) return message.channel.send(nousers)
+   if (user.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`You cannot warn an administrator.`)
+    const nouser = new Discord.MessageEmbed() .setTitle(`User Not Found`) .addField(`Usage:`, `${guildProfile.prefix}warn (user/id)`)
+        
     const reason = args.slice(1).join(" ");
         const reasonembed = new Discord.MessageEmbed()
             .setTitle(`Invalid Usage`)
