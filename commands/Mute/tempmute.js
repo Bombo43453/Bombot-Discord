@@ -36,6 +36,7 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
     if(!message.member.hasPermission(`${guildProfile.MutePerm}`)) return message.channel.send(noperms)
     const Member = message.mentions.members.first() || message.guild.members.cache.get(args[0])
     const time = args[1]
+    if (Member.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`You cannot warn an administrator.`)
     if(!Member) return message.channel.send(nomemberfound)
     if(!time) return message.channel.send(noTIMEembed)
     const role = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted')
@@ -80,7 +81,6 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
         .setColor(`RED`)
         .addFields(
             {name: `TIME:`, value: `${time}`, inline: false},
-            {name: `Appeal Here:`, value: `https://discord.gg/sbYhAmuCZX`, inline: false}
         )
 
      const LogEmbed = new Discord.MessageEmbed()

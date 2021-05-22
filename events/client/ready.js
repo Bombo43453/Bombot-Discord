@@ -1,5 +1,7 @@
 const chalk = require(`chalk`)
 const fs = require('fs')
+const AntiSpam = require('discord-anti-spam');
+const Discord = require('discord.js');
 module.exports = async (client) => {
     console.log(`
    
@@ -18,6 +20,8 @@ client.once("disconnect", () => {
         console.log("Disconnect!");
       });
 
+
 console.log(`Active Prefix: >> ${chalk.red (`${process.env.prefix}`)} <<`)
+
 
 }
