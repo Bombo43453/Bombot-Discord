@@ -27,7 +27,7 @@ module.exports = {
             let embed = new Discord.MessageEmbed()
                 .setTitle(`${message.guild.name}'s Settings:`)
                 .setDescription(`To Assign A Value to A Property Do: ${guildProfile.prefix}settings (property) (value)`)
-                .addField(`Avaliable Properties/Settings:`, `**General Properties:** \`Prefix\` \`EmbedColor\` \`Suggestions\`  \`AuditLogging\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n \n **All Active Properties Below** (if you are seeing a missing property or no property, that means there has been no value assigned to the property. Please Assign a value to the properties.)`)
+                .addField(`Avaliable Properties/Settings:`, `**General Properties:** \`Prefix\` \`EmbedColor\` \`Suggestions\`  \`AuditLogging\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n \n **All Active Properties Below** (if you are seeing a missing property or no property, that means there has been no value assigned to the property. Please Assign a value to the properties.)`)
                 .setColor(`${process.env.EMBEDCOLOR}`)
                 .setThumbnail(`${process.env.SERVERLOGO}`)
             if (guildProfile.prefix) embed.addField(`Prefix:`, `>> \`${guildProfile.prefix}\` <<`, true)

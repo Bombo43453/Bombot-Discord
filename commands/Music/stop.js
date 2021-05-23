@@ -27,7 +27,8 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
             let work = client.player.stop(message)
             const embed = new Discord.MessageEmbed()
                 .setTitle(`Stopped Music`)
-                .setDescription(`The Current Song A Queue Have Been Stopped`)
+                .setDescription(`The Current Queue Has Been Stopped`)
+                .setColor(`${guildProfile.EmbedColor}`)
                 .setTimestamp()
             if(work) message.channel.send(embed)
         } catch (err) {

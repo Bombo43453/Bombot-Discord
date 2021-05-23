@@ -118,4 +118,4 @@ for (const file of music){
     })
 
 mongoose.init()
-client.login(`${process.env.TOKEN}`);
+client.login(`${process.env.TESTTOKEN}`);

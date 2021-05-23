@@ -2,13 +2,21 @@ const Discord = require(`discord.js`)
 module.exports = async(client, guild) => {
     const channelNames = ['general', 'welcome']
   const channel = guild.channels.cache.find(ch => channelNames.includes(ch.name))
+      let invite = await channel.createInvite(
+          {
+              maxAge: 10 * 60 * 1000,
+              maxUses: 3
+          }
+      ) .catch (console.log)
+  
     const embed = new Discord.MessageEmbed()
         .setTitle(`I Have Been Added to Another Guild`)
         .setDescription(`Guild Info:`)
         .addField(`Guild Name:`, `${guild.name}`, true)
         .addField(`Guild ID:`, `${guild.id}`, true)
         .addField(`Guild Owner:`, `${guild.owner}`, true)
-        .addField(`Members:`, `${guild.memberCount.toLocaleString()}`)
+        .addField(`Members:`, `${guild.memberCount.toLocaleString()}`, true)
+        .addField(`Invite`, `${invite || `An Error Has Occured`}`, true)
         .setColor(`BLUE`)
         client.channels.cache.get(`843898073250791454`).send(embed)
     if (channel){
