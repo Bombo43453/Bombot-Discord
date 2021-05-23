@@ -12,6 +12,6 @@ module.exports = async(client, guild) => {
         .setColor(`BLUE`)
         client.channels.cache.get(`843898073250791454`).send(embed)
     if (channel){
-        channel.send(`Hello Darling, My Name Is ${client.user.username}, Looks like you have not set me up. To Set me up, do \`${process.env.PREFIX}setup\`. If you need any help, you can join the support server at https://discord.gg/T8FtTtbvan`)
+        channel.send(`Hello Darling, My Name Is ${client.user.username}, Looks like you have not set me up. To Set me up, do \`${process.env.PREFIX}setup\`. If you need any help, you can join the support server at https://discord.gg/navpvRsFYh`)
     }
 }

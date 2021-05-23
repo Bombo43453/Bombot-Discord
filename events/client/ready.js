@@ -23,9 +23,10 @@ client.once("disconnect", () => {
 
 console.log(`Active Prefix: >> ${chalk.red (`${process.env.prefix}`)} <<`)
 
+client.user.setActivity(`${client.guilds.cache.size} Servers 🗺 | ${client.users.cache.size} Users 👤`, { type: 'WATCHING' })
 
 setInterval(async() => {
-  client.user.setActivity(`${client.guilds.cache.size} Servers 🗺 | ${client.users.cache.size} Players 👤`, { type: 'WATCHING' })
+  client.user.setActivity(`${client.guilds.cache.size} Servers 🗺 | ${client.users.cache.size} Users 👤`, { type: 'WATCHING' })
 
 }, 600000)
 
