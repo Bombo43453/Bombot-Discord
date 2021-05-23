@@ -19,6 +19,7 @@ const guildSchema = new mongoose.Schema({
     WarnPerm: {type: String, default: process.env.WARN},
     Suggest: {type: String, default: `disabled`},
     AuditLogging: {type: String, default: `disabled`},
+    XpRoles: {type: String, default: `disabled`},
 });
 const modle = mongoose.model(`Guild`, guildSchema, `guilds`);
 

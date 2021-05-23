@@ -1,8 +1,8 @@
 const Levels = require(`discord-xp`)
 const canvacord = require('canvacord')
 module.exports = {
-    name: `level`,
-    aliases: [`rank`, `xp`],
+    name: `Xp`,
+    aliases: [`rank`, `level`],
     description: `Returns a level of the person stated`,
     usage: `(member/ keep none for author level)`,
 async execute(client, message, args, Discord, errorlog){

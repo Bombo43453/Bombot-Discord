@@ -26,6 +26,7 @@
     "chalk": "^4.1.1",
     "discord-anti-spam": "^2.5.1",
     "discord-player": "^4.1.0",
+    "discord-rpc": "^3.2.0",
     "discord-tictactoe": "^2.1.0",
     "discord-xp": "^1.1.14",
     "discord.js": "^12.5.3",

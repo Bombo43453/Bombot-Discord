@@ -103,7 +103,6 @@ if (hasLeveledUP) {
     message.channel.send(`${message.member}, you have proceeded to level ${user.level}.`)
 }
 
-
     //Message handler Below
 
 
