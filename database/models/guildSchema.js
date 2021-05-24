@@ -20,6 +20,9 @@ const guildSchema = new mongoose.Schema({
     Suggest: {type: String, default: `disabled`},
     AuditLogging: {type: String, default: `disabled`},
     XpRoles: {type: String, default: `disabled`},
+    StaffRole: {type: String, default: `Not Set!`},
+    TicketCat: {type: String, default: `Not Set!`},
+    Tickets: {type: String, default: `Disabled`}
 });
 const modle = mongoose.model(`Guild`, guildSchema, `guilds`);
 

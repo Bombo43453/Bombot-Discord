@@ -31,6 +31,7 @@
     "discord-xp": "^1.1.14",
     "discord.js": "^12.5.3",
     "discord.js-commando": "^0.12.3",
+    "discord.js-pagination": "^1.0.3",
     "distube": "^2.8.13",
     "dotenv": "^8.2.0",
     "ffmpeg": "0.0.4",
