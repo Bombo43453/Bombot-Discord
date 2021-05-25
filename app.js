@@ -8,14 +8,14 @@ const fs = require('fs');
 const mongoose = require('./database/mongoose');
 const message = require('./events/client/message');
 // const SpotifyPlugin = require("@distube/spotify")
+const fetch = require('node-fetch');
 const { Player } = require(`discord-player`)
 //client.distube = new Distube(client, { searchSongs: false, emitNewSongOnly: false, leaveOnEmpty: true, leaveOnFinish: true, leaveOnStop: true,});
 
 levels.setURL(`${process.env.DATABASE}`)
 client.player = new Player(client);
 client.commands = new Discord.Collection
-
-
+client.cooldowns = new Discord.Collection();
 
 
 
@@ -116,6 +116,7 @@ for (const file of music){
             });
         }
     })
+
 
 mongoose.init()
 client.login(`${process.env.TESTTOKEN}`);

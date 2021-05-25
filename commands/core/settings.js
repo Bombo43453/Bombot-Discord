@@ -1,7 +1,7 @@
 const mongoose = require(`mongoose`)
 const Guild = require(`../../database/models/guildSchema`)
 module.exports = {
-    name: `settings1`,
+    name: `settings`,
     aliases: [`setup`, `setting`],
     description: `Allows the Server Owner To Change the guild settings.`,
     hidden: false,
@@ -72,7 +72,7 @@ module.exports = {
                         await send.react(`4️⃣`)
                         const collector = send.createReactionCollector((reaction, user) => 
                         message.guild.members.cache.find((member) => member.id === user.id).hasPermission(`ADMINISTRATOR`),
-                            {dispose: true}
+                            { time: 300000 },
                         );
                         collector.on(`collect`, (reaction, user) => {
                             switch (reaction.emoji.name){

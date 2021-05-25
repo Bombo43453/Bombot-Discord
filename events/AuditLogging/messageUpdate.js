@@ -19,7 +19,7 @@ module.exports = async(client, oldMessage, newMessage) => {
             if(oldMessage.guild.channels.cache.get(logchannel) === undefined) return oldMessage.guild.owner.send(`You Have Not Setup An Audit Logging Channel. Please Do ${guildProfile.prefix}setup AuditLogChannel (channelID)`);
                 const embed = new Discord.MessageEmbed()
                    .setDescription(`**Message Edited** - <#${oldMessage.channel.id}>`)
-                   .setAuthor(`${oldMessage.author.username} - ${oldMessage.author.id}`, oldMessage.author.displayAvatarURL())
+                   .setAuthor(`${oldMessage.author.tag} - ${oldMessage.author.id}`, oldMessage.author.displayAvatarURL())
                    .addField(`Old Message:`, oldMessage)
                    .addField(`Edited Message:`, newMessage)
                    .setColor(`${guildProfile.EmbedColor}`)
@@ -30,7 +30,8 @@ module.exports = async(client, oldMessage, newMessage) => {
             return;
         }
     } catch (err){
-       console.log(err)
+       //console.log(err)
+       return;
     }
     
     

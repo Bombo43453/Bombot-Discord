@@ -6,6 +6,7 @@ module.exports = {
     execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
         let reason = args.slice(1).join(" ");
         if (!message.mentions.users) return message.channel.send(`${message.author}, You Must Mention A User Usage: ${guildProfile.prefix}kick (member) (reason)`)
+    
         if (!message.member.hasPermission(`${guildProfile.KickPerm}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions Missing: **${guildProfile.KickPerm}**`);
         if (!reason) return message.channel.send(`You Have Not Stated A Reason Usage: ${guildProfile.prefix}kick (member) (reason)`);
         //if (message.mentions.users.first() !== guildMember) return message.channel.send (`You Must Kick A Member In This Server`);
@@ -39,7 +40,11 @@ module.exports = {
             )
         if(member){
             try{
-                message.mentions.users.first().send(dmEmbed)
+                try{
+                    message.mentions.users.first().send(dmEmbed)
+                } catch (err){
+                 errorlog.send(`${err}`)
+                }
             setTimeout(function(){
                 memberTarget.kick();
                 message.channel.send(kickembed);

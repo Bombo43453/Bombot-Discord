@@ -1,8 +1,10 @@
 const chalk = require(`chalk`)
+const moment = require(`moment`)
 const fs = require('fs')
 const AntiSpam = require('discord-anti-spam');
 const Discord = require('discord.js');
 module.exports = async (client) => {
+
     console.log(`
    
 888888             db        88""Yb  dP"Yb  888888 
@@ -29,5 +31,10 @@ setInterval(async() => {
   client.user.setActivity(`${client.guilds.cache.size} Servers 🗺 | ${client.users.cache.size} Users 👤`, { type: 'WATCHING' })
 
 }, 600000)
-
+ const logembed = new Discord.MessageEmbed()
+  .setTitle(`Bot Online!`)
+  .setColor(`GREEN`)
+  .setDescription(`If You Are Seeing This, The Bot Was Manually Restarted`)
+let logchannel = client.channels.cache.get(`846194502720946186`)
+const sentmsg = logchannel.send(logembed)
     }

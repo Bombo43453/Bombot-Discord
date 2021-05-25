@@ -17,6 +17,7 @@ execute(client, message, args, Discord){
           Fun: "🎉",
           core: '',
           ReactionRoles: `🎁`,
+          Ticket: `🎫`,
         }
         const ignoredCategories = ['General', 'Fun', `Xp`, `Economy`, `Music`, `Warn`];
         fs.readdirSync("./commands/").forEach((dir) => {

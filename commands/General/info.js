@@ -1,8 +1,10 @@
 
 
 module.exports = {
-    name: `info`,
+    name: `info1`,
+    cooldown: 5,
     description: `Bot Info`,
+    
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const embed = new Discord.MessageEmbed()
         .setTitle(`This is Bombot (Press To Donate)`, )
