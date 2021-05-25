@@ -1,14 +1,18 @@
 
 const Schema = require(`../../database/models/reactionrolesSchema`);
+const Guild = require(`../../database/models/guildSchema`)
 const TicketData = require(`../../database/models/TicketData`)
 const cooldown = new Set()
 const Discord = require(`discord.js`)
 const { confirmation } = require("reconlx");
-const transcript = require(`discord-transcript`)
 const { MessageAttachment } = require(`discord.js`)
 
 const { MessageEmbed, MessageCollector,DiscordAPIError } = require(`discord.js`)
 module.exports = async(client, reaction, user, bot) => {
+    let guildProfile = await Guild.findOne({
+        guildID: reaction.message.guild.id,
+    })
+    if(!guildProfile) return;
     if(user.bot) return; 
     if(reaction.message.partial) await reaction.message.fetch();
     if(reaction.partial) await reaction.fetch()
@@ -67,10 +71,16 @@ module.exports = async(client, reaction, user, bot) => {
     }
 
     if(reaction.emoji.name === `🔒`){
+        if(!reaction.message.channel.name.includes(`ticket-`)) return;
+        reaction.users.remove(user.id);
+        reaction.message.react(`❌`)
+        reaction.message.react(`✅`)
+    }
+    if(reaction.emoji.name === `✅`){
+        if(!reaction.message.channel.name.includes(`ticket-`)) return;
         let data = await TicketData.findOne({
             GuildID: reaction.message.guild.id
-        });
-       if(!reaction.message.channel.name.includes(`ticket-`)) return;
+        });    
 reaction.message.channel.send(`Closing Ticket In 5 Seconds.`)
         setTimeout(async function() {
             reaction.users.remove(user.id);
@@ -83,16 +93,21 @@ reaction.message.channel.send(`Closing Ticket In 5 Seconds.`)
             .setTitle(`Ticket Closed`)
             .setColor(`RED`)
             .setFooter(`Bombot - Easy Tickets`)
-            .setDescription(`⛔ - Delete Ticket \n 📃 - Save Transcript`)
+            .setDescription(`⛔ - Delete Ticket \n \`${guildProfile.prefix}transcript\` - Save Transcript`)
             const emby2 = new Discord.MessageEmbed()
                 .setDescription(`Ticket Closed By: ${user}`)
                 .setColor(`YELLOW`)
                 reaction.message.channel.send(emby2)
         let reactionthing = await reaction.message.channel.send(emby)
         await reactionthing.react(`⛔`)
-        await reactionthing.react(`📃`)
         reaction.message.channel.setName(`closed-${'0'.repeat(4 - data.TicketNumber.toString().length)}${data.TicketNumber}`)
         },5000)
+    }
+    if(reaction.emoji.name === `❌`){
+        if(!reaction.message.channel.name.includes(`ticket-`)) return;
+        reaction.message.react(`❌`)
+        reaction.message.react(`✅`)
+        reaction.users.remove(user.id);
     }
 
     if(reaction.emoji.name === `⛔`){
@@ -101,24 +116,11 @@ reaction.message.channel.send(`Closing Ticket In 5 Seconds.`)
             .setTitle(`Deleting Ticket`)
             .setDescription(`Deleting in 5 Seconds`)
             .setColor(`RED`)
+        reaction.message.channel.send(deleteembed)
             setTimeout(() => reaction.message.channel.delete(), 5000);
     }
 
-    if(reaction.emoji.name === `📃`){
-        if(!reaction.message.channel.name.includes(`closed-`)) return;
-        fetchTranscript(reaction.message, 100)
-            .then((data) => {
-            let messagecollection = reaction.message.channel.messages.fetch({
-                limit
-            })
-                let link = await transcript.generate(message, messagecollection, channel);
-
-                let tranembed = new Discord.MessageEmbed()
-                    .setTitle(`Transcript:`)
-                    .setDescription(`${link}`)
-                    .setFooter(`Bombot - Easy Tickets`)
-            })
-    }
+    
     Schema.findOne({ Message: reaction.message.id }, async(err, data) => {
         if(!data) return;
         if(!Object.keys(data.Roles).includes(reaction.emoji.name)) return;

@@ -45,7 +45,7 @@ module.exports = {
                     .setTitle(`${message.guild.name}'s Settings: (Page 4)`)
                     .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``)
                     .setColor(`${guildProfile.EmbedColor}`)
-                    .addField(`Ticket Settings:`, `WIP (Expect To Be Out Soon)`)
+                    .addField(`Ticket Settings:`, `${guildProfile.prefix}ticket-setup`)
                     .addField(`Giveaway Settings:`, `WIP (Expect To Be Out Soon)`)
                     .addField(`Xp Leveling Settings:`, `WIP (Expect To Be Out Soon)`)
                 if (guildProfile.prefix) embed1.addField(`Prefix:`, `>> \`${guildProfile.prefix}\` <<`, true)
