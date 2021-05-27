@@ -86,7 +86,7 @@ module.exports = {
                         }
                         embed = new Discord.MessageEmbed()
                             .setTitle(`Ticket Setup...`)
-                            .setDescription(`What Category Would You Like The Ticket To Be In (Has To Be Category ID)`)
+                            .setDescription(`What Category Would You Like The Ticket To Be In (Has To Be Category ID) \n If None Type \`None\``)
                             .setColor(`${guildProfile.EmbedColor}`)
                         msg.channel.send(embed)
                         thirdCollector.stop();
@@ -103,45 +103,35 @@ module.exports = {
                                 TicketCat = `N/A`
                             }
                             try {
-                            if(TicketCat === '0'){
-                                TicketCat = `${message.content}`
-                                const channy = await message.guild.channels.create(`(Delete me)`)
-                                channy.updateOverwrite(message.guild.id, {
-                                    VIEW_CHANNEL: false
-                                })
-                                embed = new Discord.MessageEmbed()
-                                    .setTitle(`Uh Oh`)
-                                    .setDescription(`The Category You Mentioned Does Not Exist`)
-                                    .setColor(`${guildProfile.EmbedColor}`)
-                               
-                                 channy.setParent(TicketCat).catch(err => channy.delete())
-                                 if(err){
-                                     channy.delete()
-                                     return;
-                                     
-                                 }
-                                console.log(`${TicketCat}`)
-                               console.log(`here`)
-                                setTimeout(function() {channy.delete}, 1000)
-                                
-                            }
+                                if (TicketCat === '0') {
+                                    TicketCat = `${message.content}`
+                                    const channy = await message.guild.channels.create(`Delete Me`)
+                                    channy.updateOverwrite(message.guild.id, {
+                                        VIEW_CHANNEL: false
+                                    })
+                                    embed = new Discord.MessageEmbed()
+                                        .setTitle(`Uh Oh`)
+                                        .setDescription(`The Category You Mentioned Does Not Exist`)
+                                        .setColor(`${guildProfile.EmbedColor}`)
+
+                                    channy.setParent(TicketCat).catch(err => channy.delete())
+
+                                    console.log(`${TicketCat}`)
+                                    console.log(`here`)
+                                    setTimeout(function () {
+                                        channy.delete
+                                    }, 1000)
+
+                                }
                             } catch (err) {
-                               // channy.delete()
-                                let embed = new Discord.MessageEmbed()
-                                    .setTitle(`Uh Oh`)
-                                    .setDescription(`An Error Has Occured, Please Try Again \n This Is Most Likely Because The Category You Mentioned Does Not Exist`)
-                                    .setColor(`${guildProfile.EmbedColor}`)
-                                msg.channel.send(embed)
-                                return;
-                            }
                             embed = new MessageEmbed()
-                                .setTitle(`Uh Oh`)
-                                .setDescription(`The Category You Mentioned Does Not Exist`)
+                                .setTitle(`Setup Complete`)
+                                .setDescription(`The Setup has Been Complete`)
                                 .setColor(`${guildProfile.EmbedColor}`)
                             await msg.channel.send(embed)
                             console.log(`${TicketCat}`)
                             fourthCollector.stop()
-
+                            }
                             await createTicketSystem(ticketData, embedDescription, embedChannel, message, savedRole, TicketCat)
                         })
                     })

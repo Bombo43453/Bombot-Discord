@@ -4,7 +4,7 @@ module.exports = {
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         if(!message.channel.name.includes(`ticket-`)) return;
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-        await message.channel.createOverwrite(member, {
+        await message.channel.updateOverwrite(member, {
             VIEW_CHANNEL: true,
             SEND_MESSAGES: true, 
             SEND_TTS_MESSAGES: false

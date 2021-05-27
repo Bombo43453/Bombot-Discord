@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const {Client} = require('discord.js')
 const client = new Client( {partials: ['CHANNEL', 'MESSAGE', 'GUILD_MEMBER', 'REACTION'],})
 const levels = require('discord-xp');
-const AntiSpam = require('discord-anti-spam');
 require('dotenv').config();
 const fs = require('fs');
 const mongoose = require('./database/mongoose');
@@ -53,6 +52,10 @@ for (const file of music){
     const DIFF = 3000;
     
     client.on('message', async(message) => {
+        if(message.guild==null) return;
+    if(message.guild.id === `110373943822540800`) return;
+    if(message.guild.id === `765789714384814120`) return;
+    if(message.guild.id === `839856679239680011`) return;
         if(message.author.bot) return;
         if(usersMap.has(message.author.id)) {
             const userData = usersMap.get(message.author.id);
@@ -119,4 +122,4 @@ for (const file of music){
 
 
 mongoose.init()
-client.login(`${process.env.TESTTOKEN}`);
+client.login(`${process.env.TOKEN}`);

@@ -20,12 +20,13 @@ const guildSchema = new mongoose.Schema({
     Suggest: {type: String, default: `disabled`},
     AuditLogging: {type: String, default: `disabled`},
     XpRoles: {type: String, default: `disabled`},
-    Tickets: {type: String, default: `Disabled`}
-
+    AltCheck: {type: String, required: false},
+    AutoRole: {type: String, required: false},
+    AutoRoleRole: {type: Array, required: false},
 });
 const modle = mongoose.model(`Guild`, guildSchema, `guilds`);
 
-module.exports = modle;
+module.exports = modle; 
 // module.exports = new mongoose.model(`Guild`, guildSchema, `guilds`)
 
 // LOG= 833772327056441354

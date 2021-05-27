@@ -6,6 +6,10 @@ const Guild = require(`../../database/models/guildSchema`)
 const Levels = require('discord-xp');
 
 module.exports = async (client, message) => {
+    if(message.guild==null) return;
+    if(message.guild.id === `110373943822540800`) return;
+    if(message.guild.id === `765789714384814120`) return;
+    if(message.guild.id === `839856679239680011`) return;
     if (message.author.bot) return;
     let guildProfile = await Guild.findOne({
         guildID: message.guild.id,

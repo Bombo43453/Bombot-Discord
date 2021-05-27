@@ -31,23 +31,28 @@ module.exports = async(client, reaction, user, bot) => {
         }
     data.TicketNumber += 1;
     await data.save();
+    
     const channel = await reaction.message.guild.channels.create(`ticket-${'0'.repeat(4 - data.TicketNumber.toString().length)}${data.TicketNumber}`, {
         type: `text`,
-        permissionOverwrites: [{
-            id: reaction.message.guild.id,
-            deny: [`VIEW_CHANNEL`],
-        },],
     });
-    await channel.createOverwrite(user, {
+    channel.setParent(`${data.TicketCat}`).catch(err => console.log(err))
+    channel.updateOverwrite(reaction.message.guild.id, {
+        VIEW_CHANNEL: false,
+        SEND_MESSAGES: false,
+    })
+    channel.updateOverwrite(user.id, {
         VIEW_CHANNEL: true,
         SEND_MESSAGES: true, 
-        SEND_TTS_MESSAGES: false
     });
-    await channel.createOverwrite(data.WhitelistedRole, {
+  channel.updateOverwrite(data.WhitelistedRole, {
         VIEW_CHANNEL: true,
         SEND_MESSAGES: true,
-        SEND_TTS_MESSAGES: false,
     });
+    if(data.TicketCat !== 'N/A'){
+     
+    }
+    // console.log(user)
+
     reaction.users.remove(user.id);
     const successEmbed = new Discord.MessageEmbed()
         .setTitle(`Ticket #${'0'.repeat(4 - data.TicketNumber.toString().length)}${data.TicketNumber}`)
@@ -56,6 +61,7 @@ module.exports = async(client, reaction, user, bot) => {
         .setFooter(`Bombot - Easy Ticketing`)
         let successMsg = await channel.send(`${user.toString()}`, successEmbed);
         await successMsg.react(`🔒`)
+        // await successMsg.react(`⛔`)
         await cooldown.add(user.id);
         await checkIfClose(bot, reaction, user, successMsg, channel);
 
