@@ -10,7 +10,7 @@ const message = require('./events/client/message');
 const fetch = require('node-fetch');
 const { Player } = require(`discord-player`)
 //client.distube = new Distube(client, { searchSongs: false, emitNewSongOnly: false, leaveOnEmpty: true, leaveOnFinish: true, leaveOnStop: true,});
-
+const Promise = require(`bluebird`)
 levels.setURL(`${process.env.DATABASE}`)
 client.player = new Player(client);
 client.commands = new Discord.Collection
@@ -122,4 +122,4 @@ for (const file of music){
 
 
 mongoose.init()
-client.login(`${process.env.TOKEN}`);
+client.login(`${process.env.TESTTOKEN}`);

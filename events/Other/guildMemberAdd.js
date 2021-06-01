@@ -2,18 +2,17 @@ const profileModel = require('../../database/models/profileSchema');
 let WelcomeSchema = require(`../../database/models/welcomeSchema`)
 const Discord = require(`discord.js`)
 const mongoose = require(`mongoose`)
-module.exports = (member, guild) => {
+
+module.exports = (client, member, GuildMember) => {
    // const guildy = member.guild
- WelcomeSchema.findOne({ guildID: member.user.guild.id}, async (err, data) => {
+ WelcomeSchema.findOne({ guildID: member.guild.id}, async (err, data, user) => {
 
     
     console.log(member.guild.id)
     if(!data) return;
-    const user = member.user
-    const channel = await member.guild.channels.cache.get(`${data.WelcomeChannel}`)
-    let sendy = channel.send(`Welcome ${user}, ${data.WelcomeMsg}`)
-   // welcomeChannel
+    const channel = await client.channels.cache.find(x => x.id === `${data.WelcomeChannel}`)
+    channel.send(`Welcome ${member}, ${data.WelcomeMsg}`)
+  
 
-    if (WelcomeData.ByeChannel === `N/A`) return;
 })
 }

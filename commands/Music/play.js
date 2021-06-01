@@ -1,6 +1,6 @@
 module.exports = {
     name: `play`,
-    aliases: [`p`],
+    aliases: [`p`, `p1`],
     usage: [`(song)`],
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         let errmbed = new Discord.MessageEmbed()
