@@ -46,7 +46,7 @@ module.exports = {
                 });
 
                 secondCollector.on('collect', async msg => {
-                    let embedChannel = msg.mentions.channels.first();
+                    let embedChannel = msg.mentions.channels.first().id;
                     if (!embedChannel) {
                         embed = new Discord.MessageEmbed()
                             .setTitle(`This Is Not A Valid Channel`)
