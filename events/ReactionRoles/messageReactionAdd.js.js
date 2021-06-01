@@ -15,7 +15,16 @@ module.exports = async(client, reaction, user, bot) => {
     if(!guildProfile) return;
     if(user.bot) return; 
     if(reaction.message.partial) await reaction.message.fetch();
-    if(reaction.partial) await reaction.fetch()
+    if(reaction.partial) await reaction.fetch();
+    
+    Schema.findOne({ Message: reaction.message.id }, async(err, data) => {
+        if(!data) return;
+        if(!Object.keys(data.Roles).includes(reaction.emoji.name)) return;
+
+        const [ roleid ] = data.Roles[reaction.emoji.name];
+        reaction.message.guild.members.cache.get(user.id).roles.add(roleid)
+        user.send(`You Have been given a role , by reacting to a message. `)
+    })
     
     if(!reaction.message.guild) return;
 
@@ -127,13 +136,6 @@ reaction.message.channel.send(`Closing Ticket In 5 Seconds.`)
     }
 
     
-    Schema.findOne({ Message: reaction.message.id }, async(err, data) => {
-        if(!data) return;
-        if(!Object.keys(data.Roles).includes(reaction.emoji.name)) return;
-
-        const [ roleid ] = data.Roles[reaction.emoji.name];
-        reaction.message.guild.members.cache.get(user.id).roles.add(roleid)
-        user.send(`You Have been given a role , by reacting to a message. `)
-    })
+    
 }
 

@@ -4,7 +4,7 @@ const {
     MessageCollector
 } = require(`discord.js`)
 module.exports = {
-    name: 'welcome-setup',
+    name: 'welcome-setup1',
     description: `Setup Welcome Message`,
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         let embed = 'Err, Something Went Wrong';
@@ -68,7 +68,8 @@ module.exports = {
                     });
                     
                     thirdCollector.on('collect', async message => {
-                        let byeChannel = message.mentions.channels.first()
+                        let byeChannel = message.mentions.channels.first().id
+                        console.log(byeChannel)
                         embed = new Discord.MessageEmbed() 
                             .setTitle(`Welcome Setup`)
                             .setDescription(`What Message Would You Like Your GoodBye Message To Be \n If None, Type None .\n Format: Goodbye (user), (message)`)
