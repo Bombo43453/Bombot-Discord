@@ -1,8 +1,9 @@
 
 module.exports = {
    name: 'ppsize',
-   aliases: ['pp'],
+   aliases: ['pp', `pp1`],
    description: "Show a User's PP Size",
+   cooldown: 5,
    usage: `(user/leave empty)`,
    execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
      const mentioned = message.mentions.users.first();

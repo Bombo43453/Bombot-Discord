@@ -4,7 +4,7 @@ const {
     MessageCollector
 } = require(`discord.js`)
 module.exports = {
-    name: 'welcome-setup1',
+    name: 'welcome-setup',
     description: `Setup Welcome Message`,
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         let embed = 'Err, Something Went Wrong';
