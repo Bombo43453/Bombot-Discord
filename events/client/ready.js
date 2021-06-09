@@ -15,7 +15,7 @@ module.exports = async (client) => {
   console.log(chalk.red(`All Logging Starts Below`))
   console.log(`${client.user.tag} is online!!`)
   client.once("reconnecting", () => {
-    console.log("Reconnecting!");
+    console.log(chalk.red("Reconnecting!"));
   });
 
   client.once("disconnect", () => {

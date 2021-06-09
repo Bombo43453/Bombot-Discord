@@ -1,13 +1,13 @@
 const fs = require('fs');
 const prefix = `${process.env.PREFIX}`
 module.exports = {
-    name: "help",
-    description: "Help with commands",
-    execute(client, message, args, Discord){
-      const roleColor =
-      message.guild.me.displayHexColor === "#000000"
-        ? "#ffffff"
-        : message.guild.me.displayHexColor;
+  name: "help",
+  description: "Help with commands",
+  execute(client, message, args, Discord) {
+    const roleColor =
+      message.guild.me.displayHexColor === "#000000" ?
+      "#ffffff" :
+      message.guild.me.displayHexColor;
 
     if (!args[0]) {
       let categories = [];
@@ -20,7 +20,7 @@ module.exports = {
         Economy: `:coin:`,
         Music: `🎵`,
       }
-      const ignoredCategories = [`moderation`, `Other`, `suggest`, `Warn`, `Mute`, `ReactionRoles`, `Economy`, `Ticket`]
+      const ignoredCategories = [`moderation`, `Other`, `suggest`, `Warn`, `Mute`, `ReactionRoles`, `Economy`, `Ticket`, `Welcome_Message`, `Welcome-Message`]
       fs.readdirSync("./commands/").forEach((dir) => {
         if (ignoredCategories.includes(dir)) return;
 
@@ -60,7 +60,9 @@ module.exports = {
         )
         .setFooter(
           `Requested by ${message.author.tag}`,
-          message.author.displayAvatarURL({ dynamic: true })
+          message.author.displayAvatarURL({
+            dynamic: true
+          })
         )
         .setTimestamp()
         .setColor(roleColor);
@@ -88,30 +90,31 @@ module.exports = {
         )
         .addField(
           "ALIASES:",
-          command.aliases
-            ? `\`${command.aliases.join("` `")}\``
-            : "No aliases for this command."
+          command.aliases ?
+          `\`${command.aliases.join("` `")}\`` :
+          "No aliases for this command."
         )
         .addField(
           "USAGE:",
-          command.usage
-            ? `\`${prefix}${command.name} ${command.usage}\``
-            : `\`${prefix}${command.name}\``
+          command.usage ?
+          `\`${prefix}${command.name} ${command.usage}\`` :
+          `\`${prefix}${command.name}\``
         )
         .addField(
           "DESCRIPTION:",
-          command.description
-            ? command.description
-            : "No description for this command."
+          command.description ?
+          command.description :
+          "No description for this command."
         )
         .setFooter(
           `Requested by ${message.author.tag}`,
-          message.author.displayAvatarURL({ dynamic: true })
+          message.author.displayAvatarURL({
+            dynamic: true
+          })
         )
         .setTimestamp()
         .setColor(roleColor);
       return message.channel.send(embed);
     }
-    }
+  }
 }
-

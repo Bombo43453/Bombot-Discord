@@ -48,6 +48,7 @@ module.exports = {
                     .addField(`Ticket Settings:`, `${guildProfile.prefix}ticket-setup`)
                     .addField(`Giveaway Settings:`, `WIP (Expect To Be Out Soon)`)
                     .addField(`Xp Leveling Settings:`, `WIP (Expect To Be Out Soon)`)
+                    .addField(`Welcome Message Settings:`, `${guildProfile.prefix}welcome-setup`)
                 if (guildProfile.prefix) embed1.addField(`Prefix:`, `>> \`${guildProfile.prefix}\` <<`, true)
                 if (guildProfile.EmbedColor) embed1.addField(`Embed Color:`, `${guildProfile.EmbedColor}`, true)
                 if (guildProfile.LogChannel) embed2.addField(`Log Channel:`, `${guildProfile.LogChannel}`, true)
@@ -65,41 +66,42 @@ module.exports = {
                 if (guildProfile.WarnPerm) embed3.addField(`Warn Permission`, `${guildProfile.WarnPerm}`, true)
                 let pages = [embed1, embed2, embed3, embed4]
                 const send = await message.channel.send(`** **`)
-                    send.edit(embed1)
-                        await send.react(`1️⃣`)
-                        await send.react(`2️⃣`)
-                        await send.react(`3️⃣`)
-                        await send.react(`4️⃣`)
-                        const collector = send.createReactionCollector((reaction, user) => 
-                        message.guild.members.cache.find((member) => member.id === user.id).hasPermission(`ADMINISTRATOR`),
-                            { time: 300000 },
-                        );
-                        collector.on(`collect`, (reaction, user) => {
-                            switch (reaction.emoji.name){
-                                case `1️⃣`:
-                                    send.edit(embed1)
-                                    reaction.users.remove(user.id)
-                                    break;
-                                case `2️⃣`:
-                                    send.edit(embed2)
-                                    reaction.users.remove(user.id)
-                                    break;
-                                case `3️⃣`:
-                                    send.edit(embed3)
-                                    reaction.users.remove(user.id)
-                                    break;
-                                case `4️⃣`:
-                                    send.edit(embed4)
-                                    reaction.users.remove(user.id)
-                                    break;
-                            }
-                        })
-                    } catch (err){
-                        console.log(err)
-                        message.channel.send(`An Error Has Occured. Please Upload The Following Error Code: \n Error: \n ${err}`)
+                send.edit(embed1)
+                await send.react(`1️⃣`)
+                await send.react(`2️⃣`)
+                await send.react(`3️⃣`)
+                await send.react(`4️⃣`)
+                const collector = send.createReactionCollector((reaction, user) =>
+                    message.guild.members.cache.find((member) => member.id === user.id).hasPermission(`ADMINISTRATOR`), {
+                        time: 300000
+                    },
+                );
+                collector.on(`collect`, (reaction, user) => {
+                    switch (reaction.emoji.name) {
+                        case `1️⃣`:
+                            send.edit(embed1)
+                            reaction.users.remove(user.id)
+                            break;
+                        case `2️⃣`:
+                            send.edit(embed2)
+                            reaction.users.remove(user.id)
+                            break;
+                        case `3️⃣`:
+                            send.edit(embed3)
+                            reaction.users.remove(user.id)
+                            break;
+                        case `4️⃣`:
+                            send.edit(embed4)
+                            reaction.users.remove(user.id)
+                            break;
                     }
-                        
-            
+                })
+            } catch (err) {
+                console.log(err)
+                message.channel.send(`An Error Has Occured. Please Upload The Following Error Code: \n Error: \n ${err}`)
+            }
+
+
         } else {
             if (![`Prefix`,
                     `EmbedColor`,
