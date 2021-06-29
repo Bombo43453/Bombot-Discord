@@ -43,10 +43,8 @@ And you can check the number with ${guildProfile.prefix}warns user`)
                 .addField(`User:`, `${user}`, true)
                 .setTimestamp()
             message.channel.send(removeembed)
-            try{
+            if (!isNaN(guildProfile.LogChannel)) {
                 client.channels.cache.get(`${guildProfile.LogChannel}`).send(removeembed)
-            } catch (err){
-                message.channel.send(`You Have Not Set A Log Channel. Do ${guildProfile.prefix}setup LogChannel (ChannelID)`)
             }
             data.save()
         } else {

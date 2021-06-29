@@ -5,6 +5,7 @@ const {
 const client = new Client({
     partials: ['CHANNEL', 'MESSAGE', 'GUILD_MEMBER', 'REACTION'],
 })
+require(`discord-buttons`)(client);
 const levels = require('discord-xp');
 require('dotenv').config();
 const fs = require('fs');
@@ -31,4 +32,4 @@ client.musicevents = new Discord.Collection();
 
 
 mongoose.init()
-client.login(`${process.env.TESTTOKEN}`);
+client.login(`${process.env.TOKEN}`);

@@ -39,9 +39,13 @@ if(!message.member.hasPermission(`${guildProfile.MutePerm}`)) return message.cha
             await Member.roles.remove(role);
             Member.send(DmEmbed)
             message.channel.send(`Done!`)
-            client.channels.cache.get(`${guildProfile.LogChannel}`).send(Logembed);
+            if (!isNaN(guildProfile.LogChannel)) {
+                client.channels.cache.get(`${guildProfile.LogChannel}`).send(Logembed);
+            }
+            
          } catch (err){
-             message.channel.send(`An Error Has Occured. \n This Is Most Likely Because You Have Not Set A Log Channel. \n Do ${guildProfile.prefix}setup for more informaiton. `)
+             errorlog.send(`${err}`)
+             message.channel.send(`An Error Has Occured. \n \`${err}\`  \n\n Please Report The Error Above With ${guildProfile.prefix}botbug`)
          }
               //  }
 

@@ -32,13 +32,9 @@ module.exports = {
         .addField(`Channel:`, `<#${message.channel.id}>`, false)
         .addField(`Reason:`, `${reason}`, false)
 
-        try{
+        if (!isNaN(guildProfile.LogChannel)){
             client.channels.cache.get(`${guildProfile.LogChannel}`).send(logembed)
-        } catch(err){
-            message.channel.send(`You Have Not Set A Log Channel. ${guild.owner}, Please do \`${guildProfile.prefix}settings LogChannel (Channel ID)\` `)
         }
-
-
-
+        
     },
 };

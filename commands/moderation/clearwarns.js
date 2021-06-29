@@ -34,11 +34,11 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
                 .addField(`Reason:`, `${reason}`)
                 .setTimestamp()
             message.channel.send(clearembed)
-            try{
-                client.channels.cache.get(`${guildProfile.LogChannel}`).send(clearembed)
-            }catch (err){
-                message.channel.send(`An Error Has Occured. \n You Have Not Set A Log Channel, Please Set One By Doing ${guildProfile.prefix}setup`)
+            
+            if (!isNaN(guildProfile.LogChannel)){
+                client.channels.cache.get(`${guildProfile.LogChannel}`).send(logembed)
             }
+            
             
         } else {
             const elsy = new Discord.MessageEmbed()

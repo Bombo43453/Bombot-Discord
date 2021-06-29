@@ -109,21 +109,21 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
     try{
         await Member.roles.add(role2)
     message.channel.send(nowmuted)
-    client.channels.cache.get(`${guildProfile.LogChannel}`).send(LogEmbed);
-    require('log-timestamp');
-        console.log(`MEMBER MUTED
-MEMBER: ${Member},
-MUTED BY: ${message.author.tag},
-TIME: ${time}`)
-
+    if (!isNaN(guildProfile.LogChannel)) {
+        client.channels.cache.get(`${guildProfile.LogChannel}`).send(LogEmbed);
+    }
+    
     setTimeout(async () => {
         await Member.roles.remove(role2)
         Member.send(UnMuteDM)
-        client.channels.cache.get(`${guildProfile.LogChannel}`).send(UnmuteEmbed)
+        if (!isNaN(guildProfile.LogChannel)) {
+            client.channels.cache.get(`${guildProfile.LogChannel}`).send(UnmuteEmbed)
+        }
+        
 
     }, ms(time));
     } catch (err){
-        message.channel.send(`An Error Has Occured \n This Is Most Likely Because You Have Not Set A Log Channel. Do ${guildProfile.prefix}setup For more information`)
+        message.channel.send(`An Error Has Occured \`${err}\` \n\n Please Report The Error Above With ${guildProfile.prefix}botbug`)
     }
 
     }

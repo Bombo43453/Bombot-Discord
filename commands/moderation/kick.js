@@ -48,7 +48,10 @@ module.exports = {
             setTimeout(function(){
                 memberTarget.kick();
                 message.channel.send(kickembed);
-                client.channels.cache.get(`${guildProfile.LogChannel}`).send(modembed);
+                if (!isNaN(guildProfile.LogChannel)) {
+                    client.channels.cache.get(`${guildProfile.LogChannel}`).send(modembed);
+                }
+                
                 require('log-timestamp');
              }, 3000);
             } catch (err){

@@ -1,0 +1,53 @@
+Hi, I'm Anthony and I can help you make a great custom discord bot that can be used on as many servers as you would like. 
+
+
+
+Basic Features:
+
+15 + Moderation Commands (Ban, Mute, and more)
+
+Music Commands
+
+Ticket Commands 
+
+15 + Fun Commands ( 8ball, meme etc)
+
+Reaction Roles ( Multi-Server)
+
+Xp System 
+
+Suggestion System
+
+Welcome Messages ( Multi Server)
+
+Goodbye Messages (Multi Server)
+
+Mongoose Intergration ( I can help you set up)
+
+Audit Logging
+
+Moderation Logging
+
+Anti Spam
+
+Word Blacklisting
+
+
+
+Standard: 
+
+Includes Basic Features
+Game Integration 
+API Integration
+Anti Raid Features ( Protect You From Raids)
+Alt Account Detection
+
+
+Premium: 
+
+Includes All Basic And Standard Features
+3 -5 Custom Commands (depending on the commands)
+Chatbot
+5 more fun commands
+Access To Future Code Updates
+Free Support (Via Discord Server)

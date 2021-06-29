@@ -1,12 +1,14 @@
 const mongoose = require(`mongoose`)
 const Guild = require(`../../database/models/guildSchema`)
+const Ticket = require(`../../database/models/TicketData`)
+const Welcome = require(`../../database/models/welcomeSchema`)
 module.exports = {
     name: `settings`,
     aliases: [`setup`, `setting`],
     description: `Allows the Server Owner To Change the guild settings.`,
     hidden: false,
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData) {
-        if (message.author.id !== message.guild.ownerID) return message.channel.send(`You Do Not Have Permission To Use This Command As You Are Not The Server Owner`);
+        if (!message.member.permissions.has(`MANAGE_GUILD`)) return message.channel.send(`You Do Not Have Permission To Use This Command As You Are Not The Server Owner Or Have Permissions To Manage Guild`);
         let guildProfile = await Guild.findOne({
             guildID: message.guild.id,
         })
@@ -23,13 +25,67 @@ module.exports = {
             await guildProfile.save().catch(err => console.log(err) && errorlog.send(`${err}`) && message.channel.send(`An Error Has Occured, Please make a bug report with (prefix)botbug`))
             createmsg.reply(`Profile Made.`)
         }
+        let WelcomeCheck = false;
+        let TicketCheck = false;
+        let TicketMsg = 'None';
+        let WelcomeMsg = 'None';
+        let XpThing = 'An Error Occured';
+        let DataThing = 'No Data Found, Please Try Again';
+
+        let WelcomeData = await Welcome.findOne({
+            guildID: message.guild.id,
+        })
+        if (WelcomeData) {
+            WelcomeCheck = true
+            WelcomeMsg = `Welcome Message: \`${WelcomeData.WelcomeMsg}\` \n\n Bye Message: \`${WelcomeData.ByeMsg}\` \n\n Welcome Channel: \`${WelcomeData.WelcomeMsg}\` \n\n Bye Channel: \`${WelcomeData.ByeChannel}\` \n\n To Modify These Settings Do: \`${guildProfile.prefix}welcome-setup\` `
+        }
+        if (WelcomeCheck === false) {
+            WelcomeMsg = `No Data Found \n\n Do: \`${guildProfile.prefix}welcome-setup\` To Setup Welcome Messages`
+        }
+        let TicketData = await Ticket.findOne({
+            GuildID: message.guild.id,
+        })
+        if (TicketData) {
+            TicketCheck = true;
+            TicketMsg = `Ticket Category : \`${TicketData.TicketCat}\` \n\n Number Of Tickets Made: \`${TicketData.TicketNumber}\` \n\n To Modify These Settings, Do \`${guildProfile.prefix}ticket-setup\` \n\n`
+        }
+        if (TicketCheck === false) {
+            TicketMsg = `Do \`${guildProfile.prefix}ticket-setup\` To Setup \n\n`
+        }
+
+
+        if (guildProfile.Xp === `enabled`) {
+            XpThing = 'Enabled \n'
+        }
+        if (guildProfile.Xp === 'disabled') {
+            XpThing = `Disabled \n`
+        }
+
+
+        if (guildProfile.Blacklist === `disabled`) {
+            DataThing = `Disabled \n\n Do ${guildProfile.prefix}setup Blacklist enable to enable this feature`
+        } else if (guildProfile.Blacklist === 'enabled') {
+            DataThing = `Enabled \n\n (Blacklisted Words Change WIP)`
+        } else {
+            DataThing = `Disabled \n\n Do ${guildProfile.prefix}setup Blacklist enable to enable this feature`
+            // console.log(`Added Data`)
+            await Guild.findOneAndUpdate({
+                guildID: message.guild.id
+            }, {
+                guildName: message.guild.name,
+                Blacklist: 'disabled',
+                lastEdited: Date.now()
+            })
+        }
+
+
         if (!args.length) {
             try {
                 //const ReactionPages = recon.ReactionPages;
                 const embed1 = new Discord.MessageEmbed()
                     .setTitle(`${message.guild.name}'s Settings`)
                     .setDescription(`To Change Settings Do ${guildProfile.prefix}settings (property) (value) \n Properties Are Case Sensitive`)
-                    .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``)
+                    .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n Other: \`Blacklist\` \`XP\``)
                     .addField(`Pages:`, ` Page 1 : This Page \n Page 2: Channel Properties \n Page 3: Permission Properties \n Page 4: Other Settings`)
                     .setColor(`${guildProfile.EmbedColor}`)
                     .setThumbnail(`${process.env.SERVERLOGO}`)
@@ -45,10 +101,11 @@ module.exports = {
                     .setTitle(`${message.guild.name}'s Settings: (Page 4)`)
                     .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``)
                     .setColor(`${guildProfile.EmbedColor}`)
-                    .addField(`Ticket Settings:`, `${guildProfile.prefix}ticket-setup`)
+                    .addField(`Ticket Settings:`, `${TicketMsg}`)
                     .addField(`Giveaway Settings:`, `WIP (Expect To Be Out Soon)`)
-                    .addField(`Xp Leveling Settings:`, `WIP (Expect To Be Out Soon)`)
-                    .addField(`Welcome Message Settings:`, `${guildProfile.prefix}welcome-setup`)
+                    .addField(`Xp Leveling Settings:`, `\`${XpThing}\` \n \n`)
+                    .addField(`Welcome Message Settings:`, `${WelcomeMsg}`)
+                    .addField(`Word Blacklist Settings:`, `${DataThing}`)
                 if (guildProfile.prefix) embed1.addField(`Prefix:`, `>> \`${guildProfile.prefix}\` <<`, true)
                 if (guildProfile.EmbedColor) embed1.addField(`Embed Color:`, `${guildProfile.EmbedColor}`, true)
                 if (guildProfile.LogChannel) embed2.addField(`Log Channel:`, `${guildProfile.LogChannel}`, true)
@@ -118,8 +175,12 @@ module.exports = {
                     `WarnPermission`,
                     `Suggestions`,
                     `AuditLogging`,
-                    `Suggestion`
-                ].includes(args[0])) return message.channel.send(`You did not state A Valid Property. Valid Properties: **General Properties:** \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n \n`);
+                    `Suggestion`,
+                    `Blacklist`,
+                    'XP',
+                    `Xp`,
+                    `Bitch`,
+                ].includes(args[0])) return message.channel.send(`You did not state A Valid Property. Valid Properties: **General Properties:** \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n **Channel Properties:** \`SuggestChannel\` \`AuditLogChannel\` \n **Permission Properties:** \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\` \n  **OTHER:* \`Blacklist\` \`XP\` \n\n`);
             if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
             if (`Prefix` === args[0]) {
                 await Guild.findOneAndUpdate({
@@ -129,6 +190,26 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`);
+            } else if (`Blacklist` === args[0]) {
+                if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One Of The Following Values: \n \`enable\` \`disable\``)
+                let hi = `An Error Occured`
+                if (args[1] === `disable`) {
+                    hi = `disabled`
+                }
+                if (args[1] === `enable`) {
+                    hi = `enabled`
+                }
+                if (hi === `An Error Occured`) {
+                    message.channel.send(`An Error Occured Please Try Again Later`)
+                    return;
+                }
+                await Guild.findOneAndUpdate({
+                    guildID: message.guild.id
+                }, {
+                    Blacklist: hi,
+                    lastEdited: Date.now()
+                }).catch(err => messsage.channel.send(err))
+                message.channel.send(`Updated ${args[0]} to ${hi}`)
             } else if (`EmbedColor` === args[0]) {
                 if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
                 if (![`DEFAULT`, `AQUA`, `DARK_AQUA`, `GREEN`, `DARK_GREEN`, `BLUE`, `DARK_BLUE`, `PURPLE`, `DARK_PURPLE`, `LUMINIOUS_VIVID_PINK`, `DARK_VIVID_PINK`, `GOLD`, `DARK_GOLD`, `ORANGE`, `DARK_ORANGE`, `RED`, `DARK_GREY`, `DARKER_GREY`, `LIGHT_GREY`, `NAVY`, `DARK_NAVY`, `YELLOW`, `WHITE`, `BLURPLE`, `GREYPLE`, `DARK_BUT_NOT_BLACK`, `NOT_QUITE_BLACK`].includes(args[1])) return message.channel.send(`You Need To Choose From These Avaliable Colors: \n \`DEFAULT\` \`AQUA\` \`DARK_AQUA\` \`GREEN\` \`DARK_GREEN\` \`BLUE\` \`DARK_BLUE\` \`PURPLE\` \`DARK_PURPLE\` \`LUMINIOUS_VIVID_PINK\` \`DARK_VIVID_PINK\` \`GOLD\` \`DARK_GOLD\` \`ORANGE\` \`DARK_ORANGE\` \`RED\` \`DARK_RED\` \`GREY\` \`DARK_GREY\` \`DARKER_GREY\` \`LIGHT_GREY\` \`NAVY\` \`DARK_NAVY\` \`YELLOW\` \`WHITE\` \`BLURPLE\` \`GREYPLE\` \`DARK_BUT_NOT_BLACK\` \`NOT_QUITE_BLACK\``)
@@ -262,7 +343,7 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${hi}`)
-            } else if (`Suggestions` || `Suggestion` === args[0]) {
+            } else if (`Suggestions` === args[0]) {
                 if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One OF The Following Values: \n \`enable\` \`disable\` `);
                 let hi = '1';
                 if (args[1] === `disable`) {
@@ -275,6 +356,22 @@ module.exports = {
                     guildID: message.guild.id
                 }, {
                     Suggest: hi,
+                    lastEdited: Date.now()
+                })
+                message.channel.send(`Updated ${args[0]} to ${hi}`)
+            } else if (`XP` === args[0]) {
+                if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One Of The Following Values: \n \`enable\` \`disable\``)
+                let hi = 'An Error Has Occured'
+                if (args[1] === `disable`) {
+                    hi = `disabled`
+                }
+                if (args[1] === `enable`) {
+                    hi = `enabled`
+                }
+                await Guild.findOneAndUpdate({
+                    guildID: message.guild.id
+                }, {
+                    Xp: hi,
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${hi}`)

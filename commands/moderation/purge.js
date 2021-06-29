@@ -2,7 +2,7 @@ module.exports = {
     name: "purge",
     description: "removes some messages",
     usage: `(amount of messages)`,
-    async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+    async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
         const reason = args.join(" ");
         if (!message.guild) return;
         if (!message.member.hasPermission(`${guildProfile.PurgePerm}`)) return message.channel.send(`${message.author}, You Dont Not Have Permissions Missing: **${guildProfile.PurgePerm}**`);
@@ -27,19 +27,25 @@ module.exports = {
                         .setDescription(`${message.author}, Purged ${messages.size} Messages!`)
                         .setTimestamp()
                         .setColor(`${guildProfile.EmbedColor}`)
-                        .addFields(
-                            {name: `Channel:`, value: `<#${message.channel.id}>`, inline: false}
-                        )
+                        .addFields({
+                            name: `Channel:`,
+                            value: `<#${message.channel.id}>`,
+                            inline: false
+                        })
                     const deleteembed = new Discord.MessageEmbed()
                         .setDescription(`Deleted ${messages.size} messages!`)
-                    message.channel.send(deleteembed).then (async (msg) => {
-                        setTimeout(() => {msg.delete(); }, 1000);
+                    message.channel.send(deleteembed).then(async (msg) => {
+                        setTimeout(() => {
+                            msg.delete();
+                        }, 1000);
                     });
-                    client.channels.cache.get(`${guildProfile.LogChannel}`).send(deletembed2);
+                    if (!isNaN(guildProfile.LogChannel)) {
+                        client.channels.cache.get(`${guildProfile.LogChannel}`).send(deletembed2)
+                    }
                 });
-        }catch (err){
-            console.log(err);
-            message.channel.send(`I was Unable To Delete The Amount Stated / You Did Not Setup A Log Channel (do ${guildProfile.prefix}setup) for more information)`)
+        } catch (err) {
+            //console.log(err);
+            message.channel.send(`I was Unable To Delete The Amount Stated, Please Make Sure Messages Are Under 14 Days Old. Please the support discord for more info.`)
         }
     }
 }

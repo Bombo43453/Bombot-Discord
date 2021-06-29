@@ -5,7 +5,8 @@ module.exports = {
     aliases: [`rank`, `level`],
     description: `Returns a level of the person stated`,
     usage: `(member/ keep none for author level)`,
-async execute(client, message, args, Discord, errorlog){
+async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
+ if(guildProfile.Xp === `enabled`){
     let mentionedMember = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
     if (!mentionedMember) mentionedMember = message.member;
 
@@ -32,6 +33,10 @@ async execute(client, message, args, Discord, errorlog){
         errorlog.send(err);
         console.log(err);
     }
+    } else {
+        message.channel.send(`Xp Is Disabled, To Enable It To Refer to Settings.`)
+        return;
     }
+ }
 }
 //${mentionedMember} is level ${target.level} and has ${target.xp}/${Levels.xpFor(target.level +1)} Xp 

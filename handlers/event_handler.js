@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 module.exports = (client, Discord) => {
     fs.readdirSync(`./events/`).forEach(dirs => {
         const events = fs.readdirSync(`./events/${dirs}`).filter(file => file.endsWith(`.js`))

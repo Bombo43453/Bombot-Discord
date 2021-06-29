@@ -23,6 +23,13 @@ const guildSchema = new mongoose.Schema({
     AltCheck: {type: String, required: false},
     AutoRole: {type: String, required: false},
     AutoRoleRole: {type: Array, required: false},
+    Blacklist: {type: String, default: "disabled"},
+    Xp: {type: String, default: `enabled`},
+    One: {Type: String, required: false},
+    Two: {Type: String, required: false},
+    Three: {Type: String, required: false},
+    Four: {Type: String, required: false},
+    Five: {Type: String, required: false},
 });
 const modle = mongoose.model(`Guild`, guildSchema, `guilds`);
 

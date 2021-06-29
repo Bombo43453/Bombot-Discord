@@ -20,11 +20,15 @@ module.exports = {
             .setThumbnail(`${process.env.SERVERLOGO}`)
         try {
             await message.channel.send(sayEmbed);
-            client.channels.cache.get(`${guildProfile.LogChannel}`).send(logembed)
+            if (!isNaN(guildProfile.LogChannel)) {
+                client.channels.cache.get(`${guildProfile.LogChannel}`).send(logembed)
+            }
+            
         }catch (err){
            // console.log(err);
           // errorlog.log(`${err}`)
-            message.channel.send(`${message.author}, I am not Able To Send That Message \n This Is Most Likely Because You Have Not Set A Log Channel. \n Do ${guildProfile.prefix}setup For More Information`)
+            message.channel.send(`${message.author}, I am not Able To Send That Message \n This Is Most Likely Because Of A Message Being Over 2000 Characters.`)
+            errorlog.send(`${err}`)
         }
 
     }

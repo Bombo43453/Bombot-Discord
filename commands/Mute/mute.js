@@ -100,14 +100,14 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
         try{
             message.channel.send(nowmuted)
             require('log-timestamp');
-            console.log(`MEMBER MUTED
-    MUTED MEMBER: ${Member}
-    MUTED BY: ${message.author.tag}
-    TIME: NO LIMIT (NOT A TIMED MUTE)`)
             Member.send(DMembed)
-            client.channels.cache.get(`${process.env.LOG}`).send(LogEmbed);
+            if (!isNaN(guildProfile.LogChannel)) {
+                client.channels.cache.get(`${guildProfile.LogChannel}`).send(LogEmbed);
+            }
+            
         }catch (err){
-            message.channel.send(`${message.guild.owner}, You Have Not Setup A Log Channel. Do ${guildProfile}setup LogChannel (Channel ID)`)
+            errorlog.send(`${err}`)
+            return;
         }
     }
 };

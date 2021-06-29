@@ -81,9 +81,11 @@ async execute(client, message, args, Discord, errorlog, botlog, msglog, profileD
         .setTimestamp()
         message.channel.send(embedy)
         try{
-            client.channels.cache.get(`${guildProfile.LogChannel}`).send(embedy)
+            if (!isNaN(guildProfile.LogChannel)) {
+                client.channels.cache.get(`${guildProfile.LogChannel}`).send(embedy)
+            }
         } catch (err){
-            message.channel.send(`Missing Log Channel. Make sure you have set a log channel by doing ${guildProfile.prefix}setup LogChannel (Channel ID)`)
+            return;
         }
         
     }

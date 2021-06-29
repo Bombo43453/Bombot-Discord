@@ -1,7 +1,8 @@
 
 
 module.exports = {
-    name: `info1`,
+    name: `info`,
+    aliases: [`credits`],
     cooldown: 5,
     description: `Bot Info`,
     

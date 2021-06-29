@@ -39,50 +39,55 @@ module.exports = async (client, message) => {
     }
     const errorlog = client.channels.cache.get(`${process.env.ERRORLOG}`)
     const logChannel = client.channels.cache.find(channel => channel.id === `${guildProfile.LogChannel}`)
-    let words = ["Roblox", "I'm Leaving", "nibba", "faggot", "fag", "nigger", "nigga", "beaner", "niglet", "anal", "jack off", "ni88a", "jerk off", "I'm hard", "Jerk me ", "ICRP IS SHIT"]
+
     //ADD TO THE WORDS ABOVE, FOLLOW FORMAT
 
 
-    let foundinText = false;
-    for (var i in words) {
-        if (message.content.toLowerCase().includes(words[i].toLowerCase())) foundinText = true;
+    if (guildProfile.Blacklist === 'enabled') {
+        let foundinText = false;
+        let words = ["nibba", "faggot", "fag", "nigger", "nigga", "beaner", "niglet", "jack off", "ni88a"]
+        for (var i in words) {
+            if (message.content.toLowerCase().includes(words[i].toLowerCase())) foundinText = true;
+            if (foundinText === true) {
+                message.delete()
+                let logEmbed = new Discord.MessageEmbed()
+                    .setDescription(`**A Blacklisted Word Was Said**`)
+                    .addFields({
+                        name: `Author:`,
+                        value: `${message.author} -(${message.author.id})`,
+                        inline: true
+                    }, {
+                        name: `Channel:`,
+                        value: `${message.channel}`,
+                        inline: true
+                    }, {
+                        name: `Guild/Server:`,
+                        value: `${message.guild.name}`,
+                        inline: true
+                    }, {
+                        name: `Message:`,
+                        value: `${message.content}`,
+                        inline: false
+                    })
+                    .setColor('RED')
+                    .setTimestamp()
+                logChannel.send(logEmbed)
+                let embed = new Discord.MessageEmbed()
+                    .setTitle(`You Said A Blacklisted Word`)
+                    .setDescription(`This Word Is Not Permitted, You Have Been Reported `)
+                    .setColor('RED')
+                    .setTimestamp()
+                let msg = await message.channel.send(embed);
+                msg.delete({
+                    timeout: '5000'
+                })
+            };
+        }
     }
 
-    if (foundinText) {
-        let logEmbed = new Discord.MessageEmbed()
-            .setDescription(`**A Blacklisted Word Was Said**`)
-            .addFields({
-                name: `Author:`,
-                value: `${message.author} -(${message.author.id})`,
-                inline: true
-            }, {
-                name: `Channel:`,
-                value: `${message.channel}`,
-                inline: true
-            }, {
-                name: `Guild/Server:`,
-                value: `${message.guild.name}`,
-                inline: true
-            }, {
-                name: `Message:`,
-                value: `${message.content}`,
-                inline: false
-            })
-            .setColor('RED')
-            .setTimestamp()
-        logChannel.send(logEmbed)
 
-        let embed = new Discord.MessageEmbed()
-            .setTitle(`You Said A Blacklisted Word`)
-            .setDescription(`This Word Is Not Permitted, You Have Been Reported `)
-            .setColor('RED')
-            .setTimestamp()
-        let msg = await message.channel.send(embed);
-        message.delete()
-        msg.delete({
-            timeout: '5000'
-        })
-    };
+
+
 
 
     let profileData;
@@ -102,14 +107,16 @@ module.exports = async (client, message) => {
     // }
     //SUPA SPECIAL BELOW
 
-    client.emit(`checkMessage`, message);
-    if (message.channel.type === 'dm') return;
-    //XP BELOW
-    const randomXP = Math.floor(Math.random() * 29) + 1; //1-30
-    const hasLeveledUP = await Levels.appendXp(message.author.id, message.guild.id, randomXP);
-    if (hasLeveledUP) {
-        const user = await Levels.fetch(message.author.id, message.guild.id);
-        message.channel.send(`${message.member}, you have proceeded to level ${user.level}.`)
+    if (guildProfile.Xp === `enabled`) {
+        client.emit(`checkMessage`, message);
+        if (message.channel.type === 'dm') return;
+        //XP BELOW
+        const randomXP = Math.floor(Math.random() * 29) + 1; //1-30
+        const hasLeveledUP = await Levels.appendXp(message.author.id, message.guild.id, randomXP);
+        if (hasLeveledUP) {
+            const user = await Levels.fetch(message.author.id, message.guild.id);
+            message.channel.send(`${message.member}, you have proceeded to level ${user.level}.`)
+        }
     }
 
     //Message handler Below
