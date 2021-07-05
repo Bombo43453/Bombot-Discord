@@ -1,5 +1,5 @@
 const Discord = require(`discord.js`)
-module.exports = (client, error, message, ...args) => {
+module.exports = async (client, error, message, ...args) => {
     let errmbed = 0
     switch (error) {
         case 'NotPlaying':
@@ -37,6 +37,9 @@ module.exports = (client, error, message, ...args) => {
                 .setDescription(`Song Is Currently Starting, Please Wait A Few Moments And Retry`)
                 .setColor(`RED`)
             message.channel.send(errmbed);
+            break;
+        case 'destroy':
+            message.channel.send(`An Error Occured`)
             break;
         default:
             errmbed = new Discord.MessageEmbed()
