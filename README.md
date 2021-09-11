@@ -20,7 +20,7 @@ Bot is not being developed anymore so this bot works on the following versions:
 
 - Node 14.16.0
 - Discord.js 12.5.3
-- mongoose: 5.12.9\
+- mongoose: 5.12.9
 
 More info is on package.json file
 
