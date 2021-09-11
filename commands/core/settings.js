@@ -1,7 +1,12 @@
+
 const mongoose = require(`mongoose`)
+
 const Guild = require(`../../database/models/guildSchema`)
+
 const Ticket = require(`../../database/models/TicketData`)
+
 const Welcome = require(`../../database/models/welcomeSchema`)
+
 module.exports = {
     name: `settings`,
     aliases: [`setup`, `setting`],
@@ -9,9 +14,11 @@ module.exports = {
     hidden: false,
     async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData) {
         if (!message.member.permissions.has(`MANAGE_GUILD`)) return message.channel.send(`You Do Not Have Permission To Use This Command As You Are Not The Server Owner Or Have Permissions To Manage Guild`);
+        
         let guildProfile = await Guild.findOne({
             guildID: message.guild.id,
         })
+
         if (!guildProfile) {
             const creating = new Discord.MessageEmbed()
                 .setTitle(`Creating Settings Profile...`)
@@ -25,8 +32,10 @@ module.exports = {
             await guildProfile.save().catch(err => console.log(err) && errorlog.send(`${err}`) && message.channel.send(`An Error Has Occured, Please make a bug report with (prefix)botbug`))
             createmsg.reply(`Profile Made.`)
         }
+
         let WelcomeCheck = false;
         let TicketCheck = false;
+
         let TicketMsg = 'None';
         let WelcomeMsg = 'None';
         let XpThing = 'An Error Occured';
@@ -35,20 +44,25 @@ module.exports = {
         let WelcomeData = await Welcome.findOne({
             guildID: message.guild.id,
         })
+
         if (WelcomeData) {
             WelcomeCheck = true
             WelcomeMsg = `Welcome Message: \`${WelcomeData.WelcomeMsg}\` \n\n Bye Message: \`${WelcomeData.ByeMsg}\` \n\n Welcome Channel: \`${WelcomeData.WelcomeMsg}\` \n\n Bye Channel: \`${WelcomeData.ByeChannel}\` \n\n To Modify These Settings Do: \`${guildProfile.prefix}welcome-setup\` `
         }
+
         if (WelcomeCheck === false) {
             WelcomeMsg = `No Data Found \n\n Do: \`${guildProfile.prefix}welcome-setup\` To Setup Welcome Messages`
         }
+
         let TicketData = await Ticket.findOne({
             GuildID: message.guild.id,
         })
+
         if (TicketData) {
             TicketCheck = true;
             TicketMsg = `Ticket Category : \`${TicketData.TicketCat}\` \n\n Number Of Tickets Made: \`${TicketData.TicketNumber}\` \n\n To Modify These Settings, Do \`${guildProfile.prefix}ticket-setup\` \n\n`
         }
+
         if (TicketCheck === false) {
             TicketMsg = `Do \`${guildProfile.prefix}ticket-setup\` To Setup \n\n`
         }
@@ -57,18 +71,25 @@ module.exports = {
         if (guildProfile.Xp === `enabled`) {
             XpThing = 'Enabled \n'
         }
+
         if (guildProfile.Xp === 'disabled') {
             XpThing = `Disabled \n`
         }
 
 
         if (guildProfile.Blacklist === `disabled`) {
+
             DataThing = `Disabled \n\n Do ${guildProfile.prefix}setup Blacklist enable to enable this feature`
+        
         } else if (guildProfile.Blacklist === 'enabled') {
+
             DataThing = `Enabled \n\n (Blacklisted Words Change WIP)`
+
         } else {
+
             DataThing = `Disabled \n\n Do ${guildProfile.prefix}setup Blacklist enable to enable this feature`
             // console.log(`Added Data`)
+
             await Guild.findOneAndUpdate({
                 guildID: message.guild.id
             }, {
@@ -81,6 +102,7 @@ module.exports = {
 
         if (!args.length) {
             try {
+
                 //const ReactionPages = recon.ReactionPages;
                 const embed1 = new Discord.MessageEmbed()
                     .setTitle(`${message.guild.name}'s Settings`)
@@ -89,14 +111,17 @@ module.exports = {
                     .addField(`Pages:`, ` Page 1 : This Page \n Page 2: Channel Properties \n Page 3: Permission Properties \n Page 4: Other Settings`)
                     .setColor(`${guildProfile.EmbedColor}`)
                     .setThumbnail(`${process.env.SERVERLOGO}`)
+
                 let embed2 = new Discord.MessageEmbed()
                     .setTitle(`${message.guild.name}'s Settings: (Page 2)`)
                     .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``)
                     .setColor(`${guildProfile.EmbedColor}`)
+
                 let embed3 = new Discord.MessageEmbed()
                     .setTitle(`${message.guild.name}'s Settings: (Page 3)`)
                     .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``)
                     .setColor(`${guildProfile.EmbedColor}`)
+
                 let embed4 = new Discord.MessageEmbed()
                     .setTitle(`${message.guild.name}'s Settings: (Page 4)`)
                     .addField(`Avaliable Properties:`, `- General Properties : \`Prefix\` \`EmbedColor\` \`Suggestions\` \`AuditLogging\` \n-Channel Properties :  \`SuggestChannel\` \`AuditLogChannel\` \`LogChannel\` \n-Permission Properties :  \`BanPermission\` \`KickPermission\` \`PurgePermission\` \`SayPermission\` \`MutePermission\` \`CeasePermission\` \`AcceptSuggestionPermission\``)
@@ -106,6 +131,8 @@ module.exports = {
                     .addField(`Xp Leveling Settings:`, `\`${XpThing}\` \n \n`)
                     .addField(`Welcome Message Settings:`, `${WelcomeMsg}`)
                     .addField(`Word Blacklist Settings:`, `${DataThing}`)
+
+
                 if (guildProfile.prefix) embed1.addField(`Prefix:`, `>> \`${guildProfile.prefix}\` <<`, true)
                 if (guildProfile.EmbedColor) embed1.addField(`Embed Color:`, `${guildProfile.EmbedColor}`, true)
                 if (guildProfile.LogChannel) embed2.addField(`Log Channel:`, `${guildProfile.LogChannel}`, true)
@@ -121,7 +148,9 @@ module.exports = {
                 if (guildProfile.AcceptPerm) embed3.addField(`Accept/Deny Suggestion Permision:`, `${guildProfile.AcceptPerm}`, true)
                 if (guildProfile.KickPerm) embed3.addField(`Kick Permission`, `${guildProfile.KickPerm}`, true)
                 if (guildProfile.WarnPerm) embed3.addField(`Warn Permission`, `${guildProfile.WarnPerm}`, true)
+
                 let pages = [embed1, embed2, embed3, embed4]
+
                 const send = await message.channel.send(`** **`)
                 send.edit(embed1)
                 await send.react(`1️⃣`)
@@ -190,7 +219,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`);
-            } else if (`Blacklist` === args[0]) {
+            } 
+            
+            
+            else if (`Blacklist` === args[0]) {
                 if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One Of The Following Values: \n \`enable\` \`disable\``)
                 let hi = `An Error Occured`
                 if (args[1] === `disable`) {
@@ -210,7 +242,10 @@ module.exports = {
                     lastEdited: Date.now()
                 }).catch(err => messsage.channel.send(err))
                 message.channel.send(`Updated ${args[0]} to ${hi}`)
-            } else if (`EmbedColor` === args[0]) {
+            } 
+            
+            
+            else if (`EmbedColor` === args[0]) {
                 if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
                 if (![`DEFAULT`, `AQUA`, `DARK_AQUA`, `GREEN`, `DARK_GREEN`, `BLUE`, `DARK_BLUE`, `PURPLE`, `DARK_PURPLE`, `LUMINIOUS_VIVID_PINK`, `DARK_VIVID_PINK`, `GOLD`, `DARK_GOLD`, `ORANGE`, `DARK_ORANGE`, `RED`, `DARK_GREY`, `DARKER_GREY`, `LIGHT_GREY`, `NAVY`, `DARK_NAVY`, `YELLOW`, `WHITE`, `BLURPLE`, `GREYPLE`, `DARK_BUT_NOT_BLACK`, `NOT_QUITE_BLACK`].includes(args[1])) return message.channel.send(`You Need To Choose From These Avaliable Colors: \n \`DEFAULT\` \`AQUA\` \`DARK_AQUA\` \`GREEN\` \`DARK_GREEN\` \`BLUE\` \`DARK_BLUE\` \`PURPLE\` \`DARK_PURPLE\` \`LUMINIOUS_VIVID_PINK\` \`DARK_VIVID_PINK\` \`GOLD\` \`DARK_GOLD\` \`ORANGE\` \`DARK_ORANGE\` \`RED\` \`DARK_RED\` \`GREY\` \`DARK_GREY\` \`DARKER_GREY\` \`LIGHT_GREY\` \`NAVY\` \`DARK_NAVY\` \`YELLOW\` \`WHITE\` \`BLURPLE\` \`GREYPLE\` \`DARK_BUT_NOT_BLACK\` \`NOT_QUITE_BLACK\``)
                 await Guild.findOneAndUpdate({
@@ -221,7 +256,10 @@ module.exports = {
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
 
-            } else if (`LogChannel` === args[0]) {
+            } 
+            
+            
+            else if (`LogChannel` === args[0]) {
                 if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
                 if (isNaN(args[1])) return message.channel.send(`You Must Send The Channel ID To Do This`)
 
@@ -233,7 +271,10 @@ module.exports = {
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
 
-            } else if (`SuggestChannel` === args[0]) {
+            } 
+            
+            
+            else if (`SuggestChannel` === args[0]) {
                 if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
                 if (isNaN(args[1])) return message.channel.send(`You Must Send The Channel ID To Do This`)
                 await Guild.findOneAndUpdate({
@@ -244,7 +285,10 @@ module.exports = {
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
 
-            } else if (`AuditLogChannel` === args[0]) {
+            } 
+            
+            
+            else if (`AuditLogChannel` === args[0]) {
                 if (!args[1]) return message.channel.send(`You did not state a value to update the property. Usage: \`${guildProfile.prefix}settings (property) (value)\``)
                 if (isNaN(args[1])) return message.channel.send(`You Must Send The Channel ID To Do This`)
                 await Guild.findOneAndUpdate({
@@ -254,7 +298,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`BanPermission` === args[0]) {
+            } 
+            
+            
+            else if (`BanPermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -263,7 +310,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`PurgePermission` === args[0]) {
+            } 
+            
+            
+            else if (`PurgePermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -272,7 +322,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`SayPermission` === args[0]) {
+            } 
+            
+            
+            else if (`SayPermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -281,7 +334,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`MutePermission` === args[0]) {
+            } 
+            
+            
+            else if (`MutePermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -290,7 +346,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`CeasePermission` === args[0]) {
+            } 
+            
+            
+            else if (`CeasePermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -299,7 +358,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`KickPermission` === args[0]) {
+            } 
+            
+            
+            else if (`KickPermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -308,7 +370,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`AcceptSuggestionPermission` === args[0]) {
+            } 
+            
+            
+            else if (`AcceptSuggestionPermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -317,7 +382,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
-            } else if (`WarnPermission` === args[0]) {
+            } 
+            
+            
+            else if (`WarnPermission` === args[0]) {
                 if (![`ADMINISTRATOR`, `CREATE_INSTANT_INVITE`, `KICK_MEMBERS`, `BAN_MEMBERS`, `MANAGE_GUILD`, `ADD_REACTIONS`, `VIEW_AUDIT_LOG`, `PRIORITY_SPEAKER`, `VIEW_CHANNEL`, `SEND_MESSAGES`, `MANAGE_MESSAGES`, `MENTION_EVERYONE`, `CONNECT`, `SPEAK`, `MUTE_MEMBERS`, `DEAFEN_MEMBERS`, `MOVE_MEMBERS`, `CHANGE_NICKNAMES`, `MANAGE_ROLES`, `MANAGE_WEBHOOKS`, `MANAGEEMOJIS`].includes(args[1])) return message.channel.send(`**YOU NEED TO CHOOSE FROM THESE AVALIABLE VALUES** \n \`ADMINISTRATOR\` \`CREATE_INSTANT_INVITE\` \`KICK_MEMBERS\` \`BAN_MEMBERS\` \`MANAGE_CHANNELS\` \`MANAGE_GUILD\` \`ADD_REACTIONS\` \`VIEW_AUDIT_LOG\` \`PRIORITY_SPEAKER\` \`VIEW_CHANNEL\` \`SEND_MESSAGES\` \`MANAGE_MESSAGES\` \`MENTION_EVERYONE\` \`CONNECT\` \`SPEAK\` \`MUTE_MEMBERS\` \`DEAFEN_MEMBERS\` \`MOVE_MEMBERS\` \`CHANGE_NICKNAMES\` \`MANAGE_ROLES\` \`MANAGE_WEBHOOKS\` \`MANAGEEMOJIS\` \n \n \n (More Info At https://discord.com/developers/docs/topics/permissions )`);
                 await Guild.findOneAndUpdate({
                     guildID: message.guild.id
@@ -327,7 +395,10 @@ module.exports = {
                 })
                 message.channel.send(`Updated ${args[0]} to ${args[1]}`)
 
-            } else if (`AuditLogging` === args[0]) {
+            } 
+            
+            
+            else if (`AuditLogging` === args[0]) {
                 if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One OF The Following Values: \n \`enable\` \`disable\` `);
                 let hi = '1';
                 if (args[1] === `disable`) {
@@ -343,7 +414,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${hi}`)
-            } else if (`Suggestions` === args[0]) {
+            } 
+            
+            
+            else if (`Suggestions` === args[0]) {
                 if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One OF The Following Values: \n \`enable\` \`disable\` `);
                 let hi = '1';
                 if (args[1] === `disable`) {
@@ -359,7 +433,10 @@ module.exports = {
                     lastEdited: Date.now()
                 })
                 message.channel.send(`Updated ${args[0]} to ${hi}`)
-            } else if (`XP` === args[0]) {
+            } 
+            
+            
+            else if (`XP` === args[0]) {
                 if (![`enable`, `disable`].includes(args[1])) return message.channel.send(`You Must Either Choose One Of The Following Values: \n \`enable\` \`disable\``)
                 let hi = 'An Error Has Occured'
                 if (args[1] === `disable`) {

@@ -11,7 +11,7 @@ module.exports = {
             timeout: 3000
         }));
 
-        if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply(`You Can't Punish Because You Either Have The Same Role Or Your Role Is Lower Than The Person You Are Trying To Ban`);
+        
         const reason = args.slice(1).join(" ") || "No Reason Provided";
 
         //PUBLIC MESSAGE BELOW

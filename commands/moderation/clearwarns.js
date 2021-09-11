@@ -12,7 +12,7 @@ module.exports = {
 async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile){
     const db = require(`../../database/models/Warns`)
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You Do Not Have Permission To Use This Command (Only Administrators can Clear Warnings)`)
-    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+    
         const nouser = new Discord.MessageEmbed()
             .setTitle(`User Not Found`)
             .setColor(`${guildProfile.EmbedColor}`)

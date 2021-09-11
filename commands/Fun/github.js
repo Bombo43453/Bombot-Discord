@@ -4,7 +4,7 @@ const fetch = require("node-fetch")
 module.exports = {
   name: 'github',
 
-  async execute(client, message, args, Discord, errorlog, botlog, msglog, profileData, guildProfile) {
+  async execute(client, message, args, Discord) {
     const lolz = args.join('+')
         if(!lolz) return message.reply('Provide A Valid User To Search.') 
         const url = `https://api.github.com/users/${lolz}` 
