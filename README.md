@@ -14,6 +14,16 @@ Everything but the ECONOMY commands should work multi guild. To use them in one 
 
 This code is very organized and the bot is made to work in multiple guilds(servers)
 
+Works on multiple guilds (apart from economy)
+
+Bot is not being developed anymore so this bot works on the following versions:
+
+- Node 14.16.0
+- Discord.js 12.5.3
+- mongoose: 5.12.9\
+
+More info is on package.json file
+
   
 ## Deployment
 
