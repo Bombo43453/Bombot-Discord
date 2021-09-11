@@ -96,4 +96,7 @@ THERE IS A DEFAULT ENV FILE WITH EXAMPLES, You CAN JUST COPY AND PASTE IT
 
 For support, add me on discord @ bombo43453#1901
 
+
+
+Code is officially MIT LICENCED , You cannot take credit for any code here, but can remove my credit. 
   
